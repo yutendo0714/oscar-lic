@@ -1,0 +1,20 @@
+name: oscar-ocr-parseq
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch=2.0.1
+  - torchvision=0.15.2
+  - pytorch-cuda=11.8
+  - pip
+  - pip:
+      - lightning>=2.0,<2.3
+      - hydra-core>=1.3,<1.4
+      - timm>=0.9,<1.0
+      - lmdb>=1.4
+      - editdistance>=0.8
+      - pillow>=9.5,<11
+      - numpy>=1.23,<2
+# Install the pinned PARSeq repository editable after environment creation.

@@ -1,0 +1,41 @@
+snapshot_date: "2026-06-25"
+policy: >
+  Local paths point to datasets already present under /dpl. They are linked into
+  data/raw for reproducible scripts, but license_status in data/registry.yaml
+  remains authoritative before publication use.
+paths:
+  mlic_train_100k:
+    local_path: /dpl/mlic_train_100k
+    project_path: data/raw/mlic_train_100k
+    primary_use: base codec reproduction and training pool
+    status: available_local_manual_license_review
+  clic:
+    local_path: /dpl/clic
+    project_path: data/raw/clic
+    primary_use: validation/evaluation, never silently mixed with train splits
+    status: available_local_manual_license_review
+  openimages:
+    local_path: /dpl/openimages
+    project_path: data/raw/openimages
+    primary_use: general-image training pool after license/dedup audit
+    status: available_local_manual_license_review
+  textocr:
+    local_path: /dpl/veritext_raw/textocr
+    project_path: data/raw/textocr
+    primary_use: scene-text utility/OCR experiments
+    status: available_local_manual_license_review
+  icdar2013:
+    local_path: /dpl/veritext_raw/icdar2013
+    project_path: data/raw/icdar2013
+    primary_use: scene-text evaluation
+    status: available_local_manual_license_review
+  icdar2015:
+    local_path: /dpl/veritext_raw/icdar2015
+    project_path: data/raw/icdar2015
+    primary_use: incidental scene-text evaluation
+    status: available_local_manual_license_review
+  totaltext:
+    local_path: /dpl/total_text
+    project_path: data/raw/totaltext
+    primary_use: curved scene-text evaluation/training split audit
+    status: available_local_manual_license_review

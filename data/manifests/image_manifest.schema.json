@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OSCAR Image Manifest Record",
+  "type": "object",
+  "required": [
+    "sample_id",
+    "dataset_id",
+    "split",
+    "relative_path",
+    "width",
+    "height",
+    "sha256"
+  ],
+  "properties": {
+    "sample_id": {
+      "type": "string"
+    },
+    "dataset_id": {
+      "type": "string"
+    },
+    "split": {
+      "type": "string"
+    },
+    "relative_path": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "annotations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "scientific_use": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,13 @@
+config_version: 1
+method_id: uniform_text_mask
+candidate_set: identical_to_oscar
+ranking:
+  primary_key: inside_frozen_text_mask
+  within_mask: raster_order
+  outside_mask: never_until_mask_exhausted
+budget_matching: exact_actual_total_bytes_or_nearest_lower_complete_packet
+mask:
+  source: frozen_detector
+  transmit_policy: decoder_predicted_or_counted
+  dilation_pixels: 2
+seeds: [17, 23, 47]

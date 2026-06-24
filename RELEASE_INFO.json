@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "name": "oscar_lic_research_repo",
+  "version": "0.1.0-bootstrap",
+  "snapshot_date": "2026-06-24",
+  "purpose": "Self-bootstrapping LIC/OCR-aware compression research repository",
+  "paper_registry_records": 58,
+  "experiment_matrix_records": 37,
+  "unit_tests_last_passed": 26,
+  "toy_manifest_records": 5,
+  "cuda_validated": false,
+  "external_datasets_bundled": false,
+  "external_checkpoints_bundled": false,
+  "external_repositories_bundled": false,
+  "manifest_excludes": [
+    "MANIFEST.sha256"
+  ]
+}

@@ -1,0 +1,38 @@
+experiment_id,hypothesis_id,stage,priority,track,description,config,status,depends_on,gate,datasets,seeds,primary_metrics,notes
+R000,H0,bootstrap,P0,A,"Validate repository structure, registries and tests",,completed,,G0,toy,1,validation_errors,CPU only
+R001,H0,bootstrap,P0,A,Capture software and hardware environment,,completed,R000,G0,none,1,environment_manifest,No GPU work
+B001,H0,baseline,P0,A,CompressAI hyperprior five-image actual-bitstream smoke,configs/base/compressai_smoke.yaml,blocked_models,"R000,R001",G1,oscar_toy_v1,1,"bpp,psnr,roundtrip",Project-owned smoke data; requires pinned framework and zoo-weight hash
+B010,H0,baseline,P0,A,MLIC++ corrected-architecture Kodak reproduction,configs/base/mlicpp_reproduction.yaml,blocked_checkpoint,B001,G1,kodak,1,"actual_bpp,psnr,ms_ssim",Pin checkpoint hash before run
+B011,H0,baseline,P0,A,MLIC++ CLIC reproduction,configs/base/mlicpp_reproduction.yaml,blocked_checkpoint,B010,G1,clic,1,"actual_bpp,psnr,ms_ssim",Do not use CLIC train as test
+O001,H0,ocr_validation,P0,A,OCR normalization and hand-computed sequence regression,configs/evaluation/smoke.yaml,completed,R000,G2,toy,1,"cer,wer,ned,exact",Unit tests
+O002,H0,ocr_validation,P0,A,Original-image OCR upper bound and evaluator failure audit,configs/ocr/suite_v1.yaml,blocked_models,O001,G2,"scene,screen,document",1,"cer,wer,coverage",Locks evaluator versions
+O003,H0,ocr_validation,P0,A,Known blur/downsample corruption monotonicity sanity check,configs/ocr/suite_v1.yaml,blocked_models,O002,G2,validation mix,1,cer_by_corruption,Detect broken metric pipeline
+O010,H2,ocr_baseline,P0,A,Single PARSeq teacher OCR-loss baseline,configs/ocr/single_teacher_baseline.yaml,planned,"B010,O002",G3,train mix,17;23;47,"heldout_cer,total_bpp",Closest loss-only control
+O020,H2,ocr_baseline,P0,A,Multi-teacher with teacher dropout,configs/ocr/multi_teacher_baseline.yaml,planned,O010,G3,train mix,17;23;47,"worst_heldout_cer,total_bpp",No utility stream
+O021,H2,ablation,P1,A,Multi-teacher without teacher dropout,configs/ocr/multi_teacher_baseline.yaml,planned,O020,none,validation mix,17;23;47,heldout_cer,Isolate dropout
+U001,H1,oracle,P0,A,Enumerate toy candidate utility and verify actual byte deltas,configs/utility/oracle_greedy.yaml,planned,"B010,O002",G4,toy text,1,utility_correctness,Small exhaustive search
+U010,H1,oracle,P0,A,Greedy oracle versus uniform mask at matched total bytes,configs/utility/oracle_greedy.yaml,planned,"U001,O020",G4,"validation scene,screen,document",1,"heldout_cer,budget_regret",Stop project direction if no advantage
+U011,H1,control,P0,A,Detector confidence allocation,configs/ablations/detector_confidence.yaml,planned,U010,G4,validation mix,1,heldout_cer,Matched candidate set
+U012,H1,control,P0,A,Random utility allocation distribution,configs/ablations/random_utility.yaml,planned,U010,G4,validation mix,10 allocation seeds,heldout_cer,Preserve packet sizes
+U013,H1,control,P0,A,Uniform text mask allocation,configs/ablations/uniform_text_mask.yaml,planned,U010,G4,validation mix,1,heldout_cer,Primary heuristic control
+U020,H1,oracle,P1,A,Sampled-subset/Shapley approximation versus greedy oracle,configs/utility/oracle_greedy.yaml,planned,U010,none,validation subset,1,"rank_correlation,regret",Interaction analysis
+U100,H4,predictor,P0,A,Train utility predictor from oracle labels,configs/utility/predictor_v1.yaml,planned,U010,G5,train/validation mix,17;23;47,"regret,spearman,heldout_cer",Run only after G4
+U101,H4,ablation,P1,A,Utility predictor without OCR teacher disagreement feature,configs/utility/predictor_v1.yaml,planned,U100,none,validation mix,17;23;47,"heldout_cer,regret",Feature ablation
+S001,H5,stream,P0,A,Base-only OSCAR container round trip,configs/model/oscar_mlicpp_v1.yaml,planned,"B010,R000",G6,"toy,kodak",1,"byte_exactness,psnr",No enhancement
+S010,H5,stream,P0,A,Train learned feature-residual enhancement stream,configs/training/stage_c_text_stream.yaml,planned,"U100,S001",G6,train mix,17;23;47,cer_vs_total_bpp,Base frozen
+S011,H5,stream,P0,A,Progressive packet truncation and monotonicity,configs/model/oscar_mlicpp_v1.yaml,planned,S010,G6,validation mix,17;23;47,"monotonicity,cer",Complete packets only
+S020,H5,joint,P1,A,Joint fine-tuning of late base blocks and text stream,configs/training/stage_d_joint.yaml,planned,S010,G6,train mix,17;23;47,"heldout_cer,visual_quality",Compare to frozen-base
+T010,H3,topology,P1,A,"Add signed-distance, skeleton and edge targets",configs/ablations/topology_loss.yaml,planned,S010,none,small-text validation,17;23;47,"small_text_cer,nontext_lpips",Same rate/training budget
+X010,H1,cross_domain,P0,A,Final scene-text comparison,configs/evaluation/main_v1.yaml,planned,S020,G7,"textocr,totaltext,ctw1500",17;23;47,"bd_rate_cer,worst_ocr",Test only after freeze
+X011,H1,cross_domain,P0,A,Final screen-content comparison,configs/evaluation/main_v1.yaml,blocked_data,S020,G7,"sci1k,siqad",17;23;47,"bd_rate_cer,worst_ocr",Dataset access/license
+X012,H1,cross_domain,P0,A,Final document comparison,configs/evaluation/main_v1.yaml,planned,S020,G7,"docvqa,funsd,cord,sroie",17;23;47,"bd_rate_cer,anls,kie_f1",Dataset-specific task tables
+X020,H1,fairness,P0,A,Non-text quality and general-image regression,configs/evaluation/main_v1.yaml,planned,S020,G7,"kodak,clic",17;23;47,"psnr,lpips,dists",Ensure no background collapse
+R100,H6,robustness,P1,A,CRC and base fallback under corrupt enhancement packets,configs/robustness/channel_errors.yaml,planned,S011,none,validation mix,5 corruption seeds,"decode_success,delta_cer",No FEC
+R110,H6,robustness,P2,A,Utility-aware versus uniform FEC,configs/robustness/channel_errors.yaml,planned,R100,G8,validation mix,5 corruption seeds,"delta_cer,total_bpp",Matched overhead
+G100,H5,optional_refiner,P2,A,Local deterministic one-step glyph refiner,,deferred,G7,none,small-text validation,17;23;47,"cer,latency,hallucination",Only after core method succeeds
+C100,H0,compressed_domain,P2,C,Compressed-domain OCR adapter,,deferred,G7,none,"scene,document",17;23;47,"cer,adapter_bits",Follow-up scope
+P900,H0,submission,P0,A,Generate final tables from result JSON,configs/evaluation/main_v1.yaml,planned,"X010,X011,X012,X020",G8,all final,all,"tables,ci",No manual number entry
+P910,H0,submission,P0,A,Artifact clean-room smoke test,,planned,P900,G8,public subset,1,reproduction_status,Fresh environment
+B200,H0,semantic_baseline,P2,B,Reproduce official LMM-driven image-text coding on a public evaluation subset,,deferred,G7,none,kodak,paper/default plus fixed sampling seed,"total_bpp,lpips,cer,caption_bpp,latency","Count caption, prompt, index and container bytes; freeze every external weight"
+B210,H0,semantic_baseline,P2,B,Transparent SELIC semantic-latent reproduction or author-reported comparison,,deferred,G7,none,"kodak,tecnick",17;23;47,"actual_bpp,psnr,lpips,cer,encoder_latency",Do not label official reproduction without released code and matched semantic path
+B220,H0,semantic_baseline,P2,B,Text-adaptive encoding control with machine-generated captions,,deferred,G7,none,coco validation subset,17;23;47,"total_bpp,psnr,lpips,cer,caption_bpp",Matched caption generator and full side-rate accounting required

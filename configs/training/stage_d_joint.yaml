@@ -1,0 +1,19 @@
+config_version: 1
+stage: D_joint_finetune
+parent: configs/training/stage_c_text_stream.yaml
+unfreeze:
+  - base_last_analysis_block
+  - base_last_synthesis_block
+  - base_hyperprior
+  - base_entropy_parameters
+parameter_groups:
+  base_learning_rate: 0.00001
+  new_module_learning_rate: 0.00005
+conflict_management:
+  method: pcgrad_or_alternating_ablation
+  log_gradient_cosines: true
+training:
+  max_steps: 100000
+  mixed_precision: fp16
+  seeds: [17, 23, 47]
+selection_metric: validation_heldout_worst_cer_at_matched_total_bpp

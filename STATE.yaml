@@ -1,0 +1,30 @@
+schema_version: 1
+snapshot_date: '2026-06-24'
+stage: bootstrap_validated_external_reproduction_pending
+current_gate: G1
+last_validation:
+  repository_structure: passed
+  unit_tests:
+    status: passed
+    count: 26
+  cuda_available_in_artifact_environment: false
+completed:
+  - research_specification
+  - literature_registry
+  - repository_and_dataset_registries
+  - evaluation_protocol
+  - experiment_matrix
+  - bootstrap_utilities
+  - toy_smoke_dataset
+open_blockers: [B01, B02, B03, B04, B05, B06, B07, B08, B09]
+next_actions:
+  - approve_minimal_smoke_data_or_use_toy_only
+  - clone_and_review_pinned_compressai_mlic_parseq
+  - build_target_environment
+  - hash_one_corrected_mlicpp_checkpoint
+  - run_B001
+  - run_B010
+prohibited_until_gate:
+  full_oscar_training: G4
+  final_test_evaluation: configuration_freeze_after_G6
+  semantic_side_channel_in_track_A: always

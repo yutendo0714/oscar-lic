@@ -1,0 +1,30 @@
+config_version: 1
+experiment_family: ocr_loss_baseline
+base_config: configs/base/mlicpp_reproduction.yaml
+track: A
+teacher:
+  id: parseq_teacher
+  freeze: true
+  detach_original_target: true
+loss:
+  rate_weight: 1.0
+  distortion:
+    type: mse
+    weight: 1.0
+  ocr:
+    type: logit_kl_plus_feature_l1
+    weight_grid: [0.01, 0.03, 0.1, 0.3]
+    temperature: 1.0
+    original_confidence_floor: 0.5
+training:
+  freeze_base_steps: 20000
+  trainable: [last_analysis_block, last_synthesis_block, hyperprior, entropy_parameters, ocr_adapter]
+  optimizer: adam
+  learning_rate: 0.0001
+  scheduler: cosine
+  max_steps: 200000
+  validation_every: 5000
+  seeds: [17, 23, 47]
+evaluation:
+  ocr_suite: configs/ocr/suite_v1.yaml
+  primary_uses_heldout_only: true

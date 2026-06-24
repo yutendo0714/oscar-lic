@@ -1,0 +1,459 @@
+snapshot_date: '2026-06-24'
+global_policy: No automatic dataset acquisition when license_status is manual_review_required or blocked_until_verified.
+datasets:
+- id: oscar_toy_v1
+  name: OSCAR deterministic toy smoke set
+  domain:
+  - synthetic_smoke
+  role:
+  - pipeline_smoke
+  source_url: local:scripts/create_toy_dataset.py
+  license: project-owned generated artifact
+  license_status: verified
+  download_mode: generate_local
+  train_allowed: false
+  evaluation_only: false
+  annotations: single word/line bbox and transcription
+  normalization: unicode_strict_v1
+  split_policy: smoke only; prohibited for scientific claims
+  leakage_notes: Not a benchmark; never use for model selection or publication performance.
+  expected_path: data/toy
+- id: mlic_train_100k
+  name: MLIC-Train-100K
+  domain:
+  - general
+  role:
+  - base_codec_train
+  source_url: https://huggingface.co/datasets/Whiteboat/MLIC-Train-100K
+  license: verify source-component licenses and dataset card
+  license_status: manual_review_required
+  download_mode: huggingface_after_review
+  train_allowed: pending
+  evaluation_only: false
+  annotations: images only
+  normalization: RGB8
+  split_policy: train only; never mix benchmark images
+  leakage_notes: Derived from DIV2K/Flickr2K/CLIC/COCO/ImageNet; audit overlap with evaluation sets.
+  expected_path: data/raw/mlic_train_100k
+- id: openimages
+  name: Open Images
+  domain:
+  - general
+  role:
+  - base_codec_train
+  source_url: https://storage.googleapis.com/openimages/web/index.html
+  license: image-level licenses vary; annotations CC BY 4.0
+  license_status: manual_review_required
+  download_mode: official_tools_after_review
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: optional
+  normalization: RGB8
+  split_policy: training subset manifest fixed
+  leakage_notes: Respect per-image license and remove evaluation duplicates.
+  expected_path: data/raw/openimages
+- id: div2k
+  name: DIV2K
+  domain:
+  - general
+  role:
+  - training
+  - evaluation_optional
+  source_url: https://data.vision.ee.ethz.ch/cvl/DIV2K/
+  license: challenge/research terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: none
+  normalization: RGB8
+  split_policy: official train/valid split; valid not used when reported as test
+  leakage_notes: MLIC-Train-100K may include DIV2K train.
+  expected_path: data/raw/div2k
+- id: flickr2k
+  name: Flickr2K
+  domain:
+  - general
+  role:
+  - training
+  source_url: https://cv.snu.ac.kr/research/EDSR/Flickr2K.tar
+  license: verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: pending
+  evaluation_only: false
+  annotations: none
+  normalization: RGB8
+  split_policy: train only
+  leakage_notes: Image provenance/licensing review required.
+  expected_path: data/raw/flickr2k
+- id: coco2017
+  name: COCO 2017
+  domain:
+  - general
+  - scene_text_background
+  role:
+  - training
+  source_url: https://cocodataset.org/
+  license: image licenses vary; annotations terms on official site
+  license_status: manual_review_required
+  download_mode: manual_or_official
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: COCO; captions/detection optional
+  normalization: RGB8
+  split_policy: train only for codec unless explicit benchmark
+  leakage_notes: COCO-Text/TextOCR and OCR pretraining may overlap.
+  expected_path: data/raw/coco2017
+- id: kodak
+  name: Kodak PhotoCD 24 images
+  domain:
+  - general
+  role:
+  - evaluation
+  source_url: https://r0k.us/graphics/kodak/
+  license: redistribution/use terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: false
+  evaluation_only: true
+  annotations: none
+  normalization: RGB8
+  split_policy: all 24 evaluation only
+  leakage_notes: Do not use for tuning or qualitative selection only.
+  expected_path: data/raw/kodak
+- id: tecnick
+  name: Tecnick TESTIMAGES
+  domain:
+  - general
+  role:
+  - evaluation
+  source_url: https://testimages.org/
+  license: site terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: false
+  evaluation_only: true
+  annotations: none
+  normalization: RGB8
+  split_policy: fixed selected set documented
+  leakage_notes: Do not confuse full TESTIMAGES variants.
+  expected_path: data/raw/tecnick
+- id: clic
+  name: CLIC datasets
+  domain:
+  - general
+  role:
+  - training
+  - evaluation
+  source_url: https://www.compression.cc/
+  license: challenge terms vary by year
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: none
+  normalization: RGB8
+  split_policy: year and train/validation/pro split fixed
+  leakage_notes: MLIC training may include CLIC train; never use evaluation split.
+  expected_path: data/raw/clic
+- id: synthtext
+  name: SynthText in the Wild
+  domain:
+  - synthetic_text
+  - scene
+  role:
+  - ocr_train
+  - utility_train
+  source_url: https://www.robots.ox.ac.uk/~vgg/data/scenetext/
+  license: research terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: word/character boxes and text
+  normalization: unicode profile
+  split_policy: train only; create held-out background/font groups
+  leakage_notes: Synthetic style gap; fonts may leak into generated test.
+  expected_path: data/raw/synthtext
+- id: mjsynth
+  name: MJSynth / Synth90k
+  domain:
+  - synthetic_text
+  role:
+  - ocr_train
+  source_url: https://www.robots.ox.ac.uk/~vgg/data/text/
+  license: research terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: word labels
+  normalization: unicode profile
+  split_policy: training only
+  leakage_notes: Word-crop distribution differs from full images.
+  expected_path: data/raw/mjsynth
+- id: textocr
+  name: TextOCR
+  domain:
+  - scene_text
+  role:
+  - train
+  - evaluation
+  source_url: https://textvqa.org/textocr/
+  license: official terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: word polygons/transcriptions
+  normalization: ocr_default
+  split_policy: official train/val/test; test labels may be restricted
+  leakage_notes: Images derive from Open Images; OCR model pretraining overlap possible.
+  expected_path: data/raw/textocr
+- id: cocotext
+  name: COCO-Text
+  domain:
+  - scene_text
+  role:
+  - train
+  - evaluation
+  source_url: https://bgshih.github.io/cocotext/
+  license: COCO image terms plus annotation terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: text boxes/transcriptions
+  normalization: ocr_default
+  split_policy: official splits
+  leakage_notes: COCO and OCR training overlap.
+  expected_path: data/raw/cocotext
+- id: icdar2013
+  name: ICDAR 2013 Robust Reading
+  domain:
+  - scene_text
+  role:
+  - evaluation
+  source_url: https://rrc.cvc.uab.es/
+  license: competition terms; registration may be required
+  license_status: manual_review_required
+  download_mode: manual_registered
+  train_allowed: false
+  evaluation_only: true
+  annotations: word boxes/transcriptions
+  normalization: ocr_benchmark
+  split_policy: official test only for main result
+  leakage_notes: Widely used in OCR pretraining/evaluation; disclose.
+  expected_path: data/raw/icdar2013
+- id: icdar2015
+  name: ICDAR 2015 Incidental Scene Text
+  domain:
+  - scene_text
+  role:
+  - evaluation
+  source_url: https://rrc.cvc.uab.es/
+  license: competition terms; registration may be required
+  license_status: manual_review_required
+  download_mode: manual_registered
+  train_allowed: false
+  evaluation_only: true
+  annotations: quadrilaterals/transcriptions
+  normalization: ocr_benchmark
+  split_policy: official test
+  leakage_notes: Widely used OCR benchmark.
+  expected_path: data/raw/icdar2015
+- id: totaltext
+  name: Total-Text
+  domain:
+  - curved_scene_text
+  role:
+  - train
+  - evaluation
+  source_url: https://github.com/cs-chan/Total-Text-Dataset
+  license: repository/dataset terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: polygons/transcriptions
+  normalization: ocr_default
+  split_policy: official split
+  leakage_notes: Curved text; evaluator crop geometry must be fixed.
+  expected_path: data/raw/totaltext
+- id: ctw1500
+  name: CTW1500
+  domain:
+  - curved_scene_text
+  role:
+  - evaluation
+  source_url: https://github.com/Yuliang-Liu/Curve-Text-Detector
+  license: verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: polygon text lines
+  normalization: ocr_default
+  split_policy: official split
+  leakage_notes: Line-level evaluation differs from word-level CER.
+  expected_path: data/raw/ctw1500
+- id: icdar_mlt
+  name: ICDAR Multi-Lingual Text
+  domain:
+  - multilingual_scene_text
+  role:
+  - evaluation
+  source_url: https://rrc.cvc.uab.es/
+  license: competition terms/registration
+  license_status: manual_review_required
+  download_mode: manual_registered
+  train_allowed: false
+  evaluation_only: true
+  annotations: multilingual boxes/transcriptions
+  normalization: ocr_multilingual
+  split_policy: hold out scripts from teacher tuning where feasible
+  leakage_notes: Language packs and unsupported characters must be reported.
+  expected_path: data/raw/icdar_mlt
+- id: webui
+  name: WebUI screen image corpus used by PICD
+  domain:
+  - screen_ui
+  role:
+  - candidate_train
+  source_url: paper/project source to verify
+  license: unknown; web screenshots may have third-party rights
+  license_status: blocked_until_verified
+  download_mode: none
+  train_allowed: false
+  evaluation_only: false
+  annotations: OCR/layout if available
+  normalization: ocr_screen
+  split_policy: not usable until source and terms resolved
+  leakage_notes: Do not reconstruct dataset by scraping without ethics/legal review.
+  expected_path: data/raw/webui
+- id: sci1k
+  name: SCI1K
+  domain:
+  - screen_content
+  role:
+  - evaluation
+  source_url: source to be verified from PICD references
+  license: unknown
+  license_status: blocked_until_verified
+  download_mode: manual_after_review
+  train_allowed: false
+  evaluation_only: true
+  annotations: screen images; text GT availability verify
+  normalization: ocr_screen
+  split_policy: evaluation only
+  leakage_notes: Need exact dataset version and ground truth.
+  expected_path: data/raw/sci1k
+- id: siqad
+  name: SIQAD
+  domain:
+  - screen_content
+  role:
+  - evaluation
+  source_url: official SIQAD source to verify
+  license: research terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: false
+  evaluation_only: true
+  annotations: subjective quality; text labels may need creation
+  normalization: ocr_screen
+  split_policy: evaluation only
+  leakage_notes: Quality dataset may not contain OCR ground truth.
+  expected_path: data/raw/siqad
+- id: docvqa
+  name: DocVQA
+  domain:
+  - document
+  role:
+  - downstream_evaluation
+  source_url: https://www.docvqa.org/
+  license: task/dataset-specific terms and registration
+  license_status: manual_review_required
+  download_mode: manual_registered
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: questions/answers/layout depending task
+  normalization: document_unicode
+  split_policy: official splits; test server where required
+  leakage_notes: Document images may overlap foundation OCR/VLM pretraining.
+  expected_path: data/raw/docvqa
+- id: funsd
+  name: FUNSD
+  domain:
+  - forms_document
+  role:
+  - train
+  - evaluation
+  - kie
+  source_url: https://guillaumejaume.github.io/FUNSD/
+  license: verify official terms
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: words, boxes, entities, links
+  normalization: document_unicode
+  split_policy: official split; create validation from train only
+  leakage_notes: Small dataset; high variance.
+  expected_path: data/raw/funsd
+- id: cord
+  name: CORD
+  domain:
+  - receipt_document
+  role:
+  - train
+  - evaluation
+  - kie
+  source_url: https://github.com/clovaai/cord
+  license: dataset/repository terms verify
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: OCR and receipt entities
+  normalization: document_unicode
+  split_policy: official split
+  leakage_notes: Commercial receipt PII handling.
+  expected_path: data/raw/cord
+- id: sroie
+  name: SROIE
+  domain:
+  - receipt_document
+  role:
+  - evaluation
+  - kie
+  source_url: https://rrc.cvc.uab.es/
+  license: competition/registration terms
+  license_status: manual_review_required
+  download_mode: manual_registered
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: OCR boxes and key fields
+  normalization: document_unicode
+  split_policy: official split
+  leakage_notes: PII and field normalization require care.
+  expected_path: data/raw/sroie
+- id: multi_raw
+  name: MultiRAW
+  domain:
+  - raw
+  - multi_camera
+  role:
+  - future_raw_extension
+  source_url: https://github.com/NJUVISION/rho-vision
+  license: verify code and dataset separately
+  license_status: manual_review_required
+  download_mode: manual
+  train_allowed: conditional
+  evaluation_only: false
+  annotations: RAW, camera and task labels
+  normalization: sensor_specific
+  split_policy: camera/sensor-disjoint split
+  leakage_notes: Never random-split frames from same capture across train/test.
+  expected_path: data/raw/multiraw

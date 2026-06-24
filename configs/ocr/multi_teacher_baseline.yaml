@@ -1,0 +1,27 @@
+config_version: 1
+experiment_family: ocr_invariant_baseline
+base_config: configs/base/mlicpp_reproduction.yaml
+track: A
+ocr_suite: configs/ocr/suite_v1.yaml
+loss:
+  rate_weight: 1.0
+  distortion:
+    type: mse_plus_msssim
+    mse_weight: 1.0
+    msssim_weight: 0.1
+  ocr_invariant:
+    logit_kl_weight: 0.05
+    feature_l1_weight: 0.02
+    sequence_ctc_weight: 0.02
+    teacher_reduction: confidence_weighted_mean
+    teacher_disagreement_regularizer: 0.005
+training:
+  teacher_dropout: true
+  freeze_base_steps: 20000
+  max_steps: 250000
+  optimizer: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  gradient_clip_norm: 1.0
+  seeds: [17, 23, 47]
+selection_metric: heldout_validation_worst_cer_at_total_bpp

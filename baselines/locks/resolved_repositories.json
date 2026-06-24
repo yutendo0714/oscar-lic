@@ -1,0 +1,30 @@
+{
+  "compressai": {
+    "url": "https://github.com/InterDigitalInc/CompressAI",
+    "registered_pin": "81e018a2c68109d579020ba4bfa80378a366de28",
+    "resolved_commit": "81e018a2c68109d579020ba4bfa80378a366de28",
+    "path": "external/compressai",
+    "license_verified": true
+  },
+  "mlic": {
+    "url": "https://github.com/JiangWeibeta/MLIC",
+    "registered_pin": "4aa9d2a512eb9db382172058e6c278fb0d376e17",
+    "resolved_commit": "4aa9d2a512eb9db382172058e6c278fb0d376e17",
+    "path": "external/mlic",
+    "license_verified": true
+  },
+  "parseq": {
+    "url": "https://github.com/baudm/parseq",
+    "registered_pin": "1902db043c029a7e03a3818c616c06600af574be",
+    "resolved_commit": "1902db043c029a7e03a3818c616c06600af574be",
+    "path": "external/parseq",
+    "license_verified": true
+  },
+  "dcae": {
+    "url": "https://github.com/CVL-UESTC/DCAE",
+    "registered_pin": "e2525a00467cbc326045674c7e5e0f1d9964604b",
+    "resolved_commit": "e2525a00467cbc326045674c7e5e0f1d9964604b",
+    "path": "external/dcae",
+    "license_verified": false
+  }
+}

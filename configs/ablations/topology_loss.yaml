@@ -1,0 +1,13 @@
+config_version: 1
+ablation_id: add_topology_loss
+base: configs/ocr/multi_teacher_baseline.yaml
+topology:
+  signed_distance_l1_weight: 0.02
+  skeleton_chamfer_weight: 0.01
+  edge_orientation_weight: 0.01
+  mask_source: ground_truth_train_or_frozen_detector
+  test_uses_ground_truth_mask_for_metric_only: true
+comparison:
+  identical_training_steps: true
+  identical_rate_weight: true
+  identical_data_order_per_seed: true

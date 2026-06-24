@@ -1,0 +1,13 @@
+config_version: 1
+evaluation_id: smoke_v1
+datasets:
+  - id: oscar_toy_v1
+    manifest: data/toy/manifest.jsonl
+    max_images: 5
+ocr:
+  normalization_profiles: [unicode_strict_v1, latin_alnum_ci_v1]
+  recognition_mode: oracle_crop
+rate:
+  actual_complete_file: true
+metrics: [cer_micro, wer_micro, ned_mean, exact_rate, actual_total_bpp]
+retain_outputs: true

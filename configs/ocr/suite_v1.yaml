@@ -1,0 +1,41 @@
+config_version: 1
+suite_id: ocr_suite_v1
+normalization_profiles:
+  primary: unicode_strict_v1
+  secondary: [raw_exact_v1, unicode_casefold_v1, latin_alnum_ci_v1]
+recognition_modes: [oracle_crop, frozen_detector, end_to_end]
+training_teachers:
+  - id: parseq_teacher
+    registry_id: parseq
+    use_for_gradient: true
+    use_for_oracle_labels: true
+    held_out: false
+  - id: abinet_teacher
+    registry_id: abinet_parseq_hub
+    use_for_gradient: true
+    use_for_oracle_labels: true
+    held_out: false
+  - id: crnn_teacher
+    registry_id: crnn_parseq_hub
+    use_for_gradient: true
+    use_for_oracle_labels: true
+    held_out: false
+teacher_sampling:
+  strategy: random_nonempty_subset
+  minimum: 1
+  maximum: 2
+  dropout_probability: 0.33
+  confidence_weighting: original_image_confidence_clipped
+held_out_evaluators:
+  - id: trocr_heldout
+    registry_id: trocr
+  - id: tesseract_heldout
+    registry_id: tesseract
+  - id: paddleocr_heldout
+    registry_id: paddleocr
+rules:
+  no_heldout_feedback: true
+  no_test_pseudolabels: true
+  record_raw_strings: conditional_on_dataset_terms
+  freeze_versions_before_gate: G2
+  charset_mismatch_policy: report_and_stratify

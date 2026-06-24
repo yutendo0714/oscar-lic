@@ -1,0 +1,29 @@
+config_version: 1
+experiment_family: utility_predictor
+model_config: configs/model/oscar_mlicpp_v1.yaml
+labels_config: configs/utility/oracle_greedy.yaml
+input_features:
+  - base_latent_summary
+  - hyperlatent_summary
+  - decoder_uncertainty
+  - lightweight_textness
+objective:
+  huber_weight: 1.0
+  pairwise_ranking_weight: 0.5
+  uncertainty_nll_weight: 0.1
+  downstream_budget_loss_weight: 0.2
+ranking_pairs:
+  per_image: 256
+  hard_negative_fraction: 0.5
+training:
+  optimizer: adamw
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  batch_size_images: 8
+  max_steps: 100000
+  early_stopping_metric: validation_budget_regret
+  seeds: [17, 23, 47]
+evaluation:
+  metrics: [spearman, kendall_tau, topk_byte_overlap, budget_regret, heldout_cer]
+  controls: [random_utility, mask_confidence, uncertainty_only]
+  gate: G5

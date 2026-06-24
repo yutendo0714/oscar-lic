@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/oscarlic/run-manifest.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "hypothesis_id",
+    "status",
+    "command",
+    "config_path",
+    "config_sha256",
+    "code_commit",
+    "seed",
+    "started_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "experiment_id": {
+      "type": "string"
+    },
+    "hypothesis_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "running",
+        "completed",
+        "failed",
+        "invalid",
+        "interrupted"
+      ]
+    },
+    "command": {
+      "type": "string"
+    },
+    "config_path": {
+      "type": "string"
+    },
+    "config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "code_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "environment_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dataset_manifest_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "external_repository_pins": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "hardware": {
+      "type": "object"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "metrics_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "log_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "checkpoint_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "conclusion": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "validity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

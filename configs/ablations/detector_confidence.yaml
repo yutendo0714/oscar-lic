@@ -1,0 +1,7 @@
+config_version: 1
+method_id: detector_confidence
+candidate_set: identical_to_oscar
+ranking: mean_frozen_detector_confidence_per_candidate
+budget_matching: exact_actual_total_bytes_or_nearest_lower_complete_packet
+calibration: temperature_scaling_on_validation_only
+seeds: [17, 23, 47]

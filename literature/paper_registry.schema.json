@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Paper Registry Row",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "year",
+    "venue",
+    "status",
+    "category",
+    "primary_url",
+    "code_status",
+    "datasets",
+    "metrics",
+    "key_idea",
+    "reported_result",
+    "caveats",
+    "priority"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "year": {
+      "type": "string",
+      "pattern": "^[0-9]{4}$"
+    },
+    "venue": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "primary_url": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "code_url": {
+      "type": "string"
+    },
+    "code_status": {
+      "type": "string"
+    },
+    "datasets": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "string"
+    },
+    "key_idea": {
+      "type": "string"
+    },
+    "reported_result": {
+      "type": "string"
+    },
+    "caveats": {
+      "type": "string"
+    },
+    "priority": {
+      "enum": [
+        "P0",
+        "P1",
+        "P2",
+        "P3"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

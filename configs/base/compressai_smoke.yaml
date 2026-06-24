@@ -1,0 +1,23 @@
+config_version: 1
+experiment_family: base_reproduction
+method:
+  id: compressai_hyperprior
+  repository: compressai
+  model: bmshj2018-hyperprior
+  quality: 3
+  metric: mse
+  pretrained: true
+data:
+  dataset_id: oscar_toy_v1
+  subset_manifest: data/toy/manifest.jsonl
+  max_images: 5
+codec:
+  actual_bitstream: true
+  count_complete_file: true
+  padding_policy: model_required_count_against_original
+  color_space: RGB
+runtime:
+  device: cuda_if_available
+  deterministic: true
+  seed: 20260624
+output_dir: experiments/results/B001

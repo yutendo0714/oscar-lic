@@ -1,0 +1,39 @@
+config_version: 1
+model_id: oscar_mlicpp_v1
+track: A
+base:
+  id: mlicpp
+  commit: 4aa9d2a512eb9db382172058e6c278fb0d376e17
+  architecture_variant: corrected_2024
+  initially_frozen: true
+candidate_units:
+  source_feature: analysis_stage_3
+  spatial_tile_latent: [8, 8]
+  channel_group_size: 8
+  candidate_order: raster_then_channel
+utility_predictor:
+  inputs: [base_latent_summary, hyperlatent_summary, base_reconstruction_uncertainty, lightweight_textness]
+  hidden_channels: 128
+  blocks: 4
+  outputs: [expected_delta_ocr_loss_per_bit, log_variance]
+  deployment_uses_full_ocr: false
+allocator:
+  type: differentiable_budgeted_greedy
+  relaxation: hard_concrete
+  inference: deterministic_ranked_packets
+  gate_is_serialized: true
+text_stream:
+  representation: learned_feature_residual
+  channels: 96
+  hyperprior: conditional_gaussian
+  context: [base_hyperlatent, base_latent, previous_text_packet]
+  packetization: utility_ranked_groups
+  crc_per_packet: true
+  fec: disabled_by_default
+decoder:
+  fusion: gated_residual_blocks
+  refiner: none
+bitstream:
+  spec: docs/BITSTREAM_SPEC.md
+  major: 0
+  minor: 1

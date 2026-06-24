@@ -1,0 +1,39 @@
+config_version: 1
+experiment_family: base_reproduction
+method:
+  id: mlicpp
+  repository: mlic
+  repository_commit: 4aa9d2a512eb9db382172058e6c278fb0d376e17
+  architecture_variant: corrected_2024
+  forbidden_classes:
+    - LatentResidualPredictionOld
+    - SynthesisTransformOld
+  environment: environment/mlic_reproduction.yml
+checkpoints:
+  manifest: baselines/checkpoint_manifest.yaml
+  metric: mse
+  lambdas: [0.0018, 0.0035, 0.0067, 0.0130, 0.0250, 0.0483]
+data:
+  datasets: [kodak, clic]
+  manifests:
+    kodak: data/manifests/kodak_test.jsonl
+    clic: data/manifests/clic_pro_valid.jsonl
+codec:
+  use_repository_entropy_coder: true
+  actual_bitstream: true
+  retain_bitstreams: true
+  count_complete_file: true
+  bpp_denominator: original_height_times_width
+  verify_decode_shape: true
+metrics: [actual_total_bpp, psnr_rgb, ms_ssim]
+runtime:
+  batch_size: 1
+  precision: fp32
+  warmup_images: 2
+  timing_repetitions: 3
+  deterministic: true
+  seed: 20260624
+validation:
+  expected_results: baselines/expected_results.yaml
+  fail_if_checkpoint_hash_missing: true
+output_dir: experiments/results/B010

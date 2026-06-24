@@ -1,0 +1,68 @@
+snapshot_date: '2026-06-24'
+claims:
+- id: C001
+  claim: MLIC++ reports Kodak BD-rate -13.39% vs VTM-17.0 in PSNR.
+  source_id: jiang2025_mlicpp
+  evidence: author_reported
+  reproduced: false
+  confidence: high
+- id: C002
+  claim: Lai et al. report average BD-rate -32.64% at fixed CER and -28.03% at fixed WER on two screenshot
+    datasets.
+  source_id: lai2024_textquality
+  evidence: author_reported
+  reproduced: false
+  confidence: high
+- id: C003
+  claim: JPEG AI Part 1 was published in 2025 and targets a compact representation for human and machine
+    consumption.
+  source_id: jpegai2025
+  evidence: official_standard_site
+  reproduced: null
+  confidence: high
+- id: C004
+  claim: PICD encodes text and image separately and uses diffusion rendering.
+  source_id: xu2025_picd
+  evidence: peer_reviewed_paper
+  reproduced: false
+  confidence: high
+- id: C005
+  claim: RDVQ introduces differentiable entropy-constrained VQ and reports large matched-perceptual bitrate
+    savings.
+  source_id: jiang2026_rdvq
+  evidence: peer_reviewed_paper_author_reported
+  reproduced: false
+  confidence: high
+- id: C006
+  claim: The proposed utility-per-bit advantage is a hypothesis, not an established fact.
+  source_id: PROJECT_SPEC
+  evidence: project_hypothesis
+  reproduced: false
+  confidence: not_applicable
+- id: C007
+  claim: TGIC reports competitive or better perceptual results while comparison methods use roughly two
+    to four times its bitrate.
+  source_id: jiang2023_tgic
+  evidence: peer_reviewed_paper_author_reported
+  reproduced: false
+  confidence: high
+- id: C008
+  claim: The TACO text-guided encoding paper reports best LPIPS among its compared baselines while targeting
+    both pixel and perceptual fidelity.
+  source_id: lee2024_taco
+  evidence: preprint_author_reported
+  reproduced: false
+  confidence: medium
+- id: C009
+  claim: LMM-driven semantic image-text coding reports 41.58% LPIPS BD-rate improvement and releases code/weights.
+  source_id: murai2024_lmm_textcoding
+  evidence: peer_reviewed_poster_author_reported
+  reproduced: false
+  confidence: high
+- id: C010
+  claim: SELIC reports approximately 0.1–0.15 dB gain over its non-semantic baseline and -4.9% BD-rate
+    versus VVC on Kodak.
+  source_id: fu2025_selic
+  evidence: peer_reviewed_paper_author_reported
+  reproduced: false
+  confidence: high

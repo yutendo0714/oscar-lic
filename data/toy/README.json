@@ -1,0 +1,7 @@
+{
+  "dataset_id": "oscar_toy_v1",
+  "generator": "scripts/create_toy_dataset.py",
+  "seed": 20260624,
+  "samples": 5,
+  "scientific_use": "smoke_test_only"
+}

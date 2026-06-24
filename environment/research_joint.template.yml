@@ -1,0 +1,20 @@
+name: oscar-joint-template
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch=2.0.1
+  - torchvision=0.15.2
+  - pytorch-cuda=11.8
+  - pip
+  - pip:
+      - compressai==1.2.0b3
+      - lightning>=2.0,<2.3
+      - hydra-core>=1.3,<1.4
+      - einops>=0.6,<0.8
+      - timm>=0.9,<1.0
+      - pillow>=9.5,<11
+      - numpy>=1.23,<2
+# Template only. Freeze OCR modules or use offline caches if dependency/VRAM cost is excessive.

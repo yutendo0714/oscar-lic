@@ -1,0 +1,36 @@
+config_version: 1
+experiment_family: utility_oracle
+model_config: configs/model/oscar_mlicpp_v1.yaml
+candidate_definition:
+  spatial_tile_latent: [8, 8]
+  channel_group_size: 8
+  exclude_zero_payload_candidates: true
+oracle:
+  state_dependent: true
+  trajectory: greedy
+  teacher_objective: confidence_weighted_mean_ocr_loss
+  heldout_models_forbidden: true
+  delta_rate: actual_incremental_container_bytes
+  denominator_epsilon_bits: 1.0
+  negative_utility: retain_and_rank_last
+  recompute_after_each_selection: true
+  approximate_after_candidates: 512
+  approximation:
+    type: sampled_shortlist
+    shortlist_size: 64
+budgets:
+  mode: total_file_bytes
+  enhancement_fractions: [0.025, 0.05, 0.10, 0.15, 0.25]
+controls:
+  - uniform_text_mask
+  - detector_confidence
+  - random_utility
+  - uncertainty_only
+storage:
+  schema: data/manifests/utility_label.schema.json
+  output: data/processed/utility_labels_v1
+  store_teacher_components: true
+  store_actual_byte_delta: true
+gate:
+  name: G4
+  pass_condition: oracle_beats_uniform_and_mask_on_heldout_validation_at_matched_total_bytes

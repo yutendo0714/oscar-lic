@@ -1,0 +1,33 @@
+config_version: 1
+mix_id: oscar_train_mix_v1
+components:
+  general:
+    datasets: [mlic_train_100k]
+    probability: 0.35
+  synthetic_text:
+    datasets: [synthtext, mjsynth]
+    probability: 0.25
+  scene_text:
+    datasets: [textocr, cocotext]
+    probability: 0.20
+  screen:
+    datasets: [webui]
+    probability: 0.10
+  document:
+    datasets: [funsd, cord, sroie]
+    probability: 0.10
+sampling:
+  replacement: true
+  text_height_balancing: true
+  minimum_text_crop_fraction: 0.5
+  general_no_text_fraction: 0.25
+augmentation:
+  photometric: true
+  perspective: true
+  blur_probability: 0.2
+  noise_probability: 0.2
+  resize_small_text_probability: 0.3
+rules:
+  activate_only_after_each_dataset_license_is_approved: true
+  test_images_forbidden: true
+  dataset_manifest_required: true

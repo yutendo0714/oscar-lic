@@ -1,0 +1,29 @@
+schema_version: 1
+checkpoints:
+- id: mlicpp_mse_0025_corrected
+  baseline: mlicpp
+  source_url: https://drive.google.com/file/d/1FWPezuHLTQhDmEhShViI3XOSXA5u_Bya/view
+  sha256: null
+  size_bytes: null
+  architecture: corrected LatentResidualPrediction and SynthesisTransform
+  license_status: inherits/requires manual verification
+  download_status: not_downloaded
+  notes: Author README update 2024-04-08; do not use Old classes.
+- id: parseq_default
+  baseline: ocr_parseq
+  source_url: torch.hub:baudm/parseq:parseq
+  sha256: null
+  size_bytes: null
+  architecture: PARSeq default, 94 chars + EOS in default example
+  license_status: repo Apache-2.0; weights/data terms verify
+  download_status: not_downloaded
+  notes: Pin torch hub repository commit and cached file hash.
+- id: dcae_mse_0013
+  baseline: dcae
+  source_url: https://drive.google.com/file/d/1kXfvxsljdN3EfXDGqzknFc2Ecsgf8qgS/view
+  sha256: null
+  size_bytes: null
+  architecture: DCAE lambda 0.013 MSE
+  license_status: manual verification
+  download_status: not_downloaded
+  notes: Source recorded from official README.

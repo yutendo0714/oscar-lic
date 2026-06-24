@@ -1,0 +1,22 @@
+name: bootstrap-ci
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[test]'
+      - run: python scripts/validate_repo.py
+      - run: python scripts/render_literature.py --check
+      - run: python -m pytest -q
+      - run: python scripts/create_toy_dataset.py --output /tmp/oscar-toy
+      - run: python scripts/validate_dataset_manifest.py /tmp/oscar-toy/manifest.jsonl --root /tmp/oscar-toy --require-hash

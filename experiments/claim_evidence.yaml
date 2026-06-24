@@ -1,0 +1,38 @@
+schema_version: 1
+claims:
+  - id: C1
+    claim: Counterfactual utility allocation is more rate-efficient than text masks.
+    required_experiments: [U010, U011, U012, U013]
+    primary_evidence: held-out CER/WER at matched actual total bytes
+    minimum_support: oracle wins across at least two validation domains with paired uncertainty
+    disconfirming_result: oracle fails uniform text or confidence allocation
+  - id: C2
+    claim: The learned predictor captures useful utility rather than generic textness.
+    required_experiments: [U100, U101, U011, U012, U013]
+    primary_evidence: budget regret and held-out OCR
+    minimum_support: predictor beats all preregistered heuristics and random allocation
+    disconfirming_result: correlation improves but downstream OCR does not
+  - id: C3
+    claim: Multi-teacher training improves OCR-model invariance.
+    required_experiments: [O010, O020, O021]
+    primary_evidence: held-out and worst-OCR CER at matched rate
+    minimum_support: held-out improvement without material non-text degradation
+    disconfirming_result: gain restricted to teacher models
+  - id: C4
+    claim: The scalable text stream provides useful progressive enhancement.
+    required_experiments: [S001, S010, S011, S020]
+    primary_evidence: base independence, actual-rate monotonicity and OCR-rate area
+    minimum_support: valid base-only decode and aggregate OCR improvement over multiple budgets
+    disconfirming_result: hidden gate rate or frequent harmful packets
+  - id: C5
+    claim: OSCAR-LIC improves cross-domain text-preserving compression.
+    required_experiments: [X010, X011, X012, X020]
+    primary_evidence: BD-Rate@CER/WER on held-out OCR plus visual/complexity controls
+    minimum_support: at least 15% improvement on two of three domains under total-rate accounting
+    disconfirming_result: advantage disappears outside synthetic/training domain
+  - id: C6
+    claim: Utility-aware protection improves OCR robustness.
+    required_experiments: [R100, R110]
+    primary_evidence: delta CER at matched FEC overhead
+    minimum_support: consistent reduction across preregistered channel conditions
+    disconfirming_result: uniform FEC is equal or better

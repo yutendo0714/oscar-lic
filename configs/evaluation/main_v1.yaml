@@ -1,0 +1,39 @@
+config_version: 1
+evaluation_id: main_v1
+protocol: evaluation/PROTOCOL.md
+track: A
+datasets:
+  scene: [textocr, totaltext, ctw1500]
+  screen: [sci1k, siqad]
+  document: [docvqa, funsd, cord, sroie]
+  general: [kodak, clic]
+ocr_suite: configs/ocr/suite_v1.yaml
+recognition_modes: [oracle_crop, frozen_detector, end_to_end]
+normalization_profiles:
+  primary: unicode_strict_v1
+  secondary: [raw_exact_v1, latin_alnum_ci_v1]
+rate:
+  primary: actual_total_bpp
+  retain_bitstreams: true
+  section_breakdown: true
+visual_metrics: [psnr_rgb, ms_ssim, lpips, dists]
+ocr_metrics: [cer_micro, wer_micro, ned_mean, exact_rate, spotting_hmean, worst_heldout_cer]
+strata:
+  text_height_px: ['<=8', '9-16', '17-32', '>32']
+  domain: true
+  script: true
+  numeric: true
+statistics:
+  training_seeds: [17, 23, 47]
+  bootstrap_resamples: 10000
+  bootstrap_seed: 20260624
+  confidence: 0.95
+bd_rate:
+  interpolation: pchip_if_locked_else_linear
+  extrapolation: false
+  pareto_filter: true
+complexity:
+  warmup: 10
+  repetitions: 30
+  batch_size: 1
+report_schema: evaluation/REPORTING_SCHEMA.json

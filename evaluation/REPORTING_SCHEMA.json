@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/oscarlic/evaluation-report.schema.json",
+  "title": "OSCAR-LIC Evaluation Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "result_validity",
+    "dataset_manifest_sha256",
+    "method",
+    "rate",
+    "metrics"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_-]+$"
+    },
+    "result_validity": {
+      "enum": [
+        "valid_primary",
+        "valid_secondary",
+        "estimated_rate_only",
+        "author_reported",
+        "invalid_metric_bug",
+        "invalid_data_leakage",
+        "invalid_wrong_checkpoint",
+        "invalid_incomplete_rate",
+        "failed_runtime"
+      ]
+    },
+    "dataset_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "id",
+        "track"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "track": {
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "checkpoint_sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "rate": {
+      "type": "object",
+      "required": [
+        "actual_total_bytes",
+        "actual_total_bpp",
+        "sections"
+      ],
+      "properties": {
+        "actual_total_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actual_total_bpp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "estimated_bpp": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "sections": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "cer_micro": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "wer_micro": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "ned_mean": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "exact_rate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "psnr_rgb": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ms_ssim": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "lpips": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dists": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "ocr": {
+      "type": "object",
+      "properties": {
+        "normalization_profile": {
+          "type": "string"
+        },
+        "recognition_mode": {
+          "enum": [
+            "oracle_crop",
+            "frozen_detector",
+            "end_to_end",
+            "compressed_domain"
+          ]
+        },
+        "model_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "complexity": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

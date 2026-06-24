@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OSCAR Utility Label Record",
+  "type": "object",
+  "required": [
+    "sample_id",
+    "state_id",
+    "candidate_id",
+    "selected_before",
+    "delta_ocr_loss",
+    "delta_actual_bits",
+    "utility",
+    "teacher_components"
+  ],
+  "properties": {
+    "sample_id": {
+      "type": "string"
+    },
+    "state_id": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "selected_before": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "delta_ocr_loss": {
+      "type": "number"
+    },
+    "delta_actual_bits": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "utility": {
+      "type": "number"
+    },
+    "teacher_components": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "base_bitstream_sha256": {
+      "type": "string"
+    },
+    "candidate_payload_sha256": {
+      "type": "string"
+    },
+    "ocr_suite_id": {
+      "type": "string"
+    },
+    "normalization_profile": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

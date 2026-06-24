@@ -1,0 +1,19 @@
+name: oscar-compressai-snapshot
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - cmake
+  - ninja
+  - cxx-compiler
+  - pip:
+      # Install torch/torchvision with a target-machine CUDA choice first.
+      # Then install external/compressai at the registered commit with `pip install -e .`.
+      - pytest
+      - pytest-cov
+notes:
+  - This is a template, not a fully resolved lock.
+  - Freeze exact packages after successful build and actual-bitstream smoke test.

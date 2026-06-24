@@ -1,0 +1,266 @@
+snapshot_date: '2026-06-24'
+global_rules:
+  rate: actual serialized total bytes for primary tables
+  image_domain: RGB 8-bit unless a baseline normatively requires otherwise; report conversions
+  padding: record original H,W and count complete file bytes against original H*W
+  timing: warm-up, synchronize GPU, separate model/entropy/I-O time
+  status_labels:
+  - official_exact
+  - official_uncertain_match
+  - author_reimplementation
+  - third_party_reimplementation
+  - author_reported_only
+baselines:
+- id: compressai_factorized
+  family: general_lic
+  priority: P0
+  repo_id: compressai
+  implementation_status: framework_reference
+  model: bmshj2018-factorized
+  required: true
+  training: pretrained zoo
+  rate_points: quality indices supported by framework
+  evaluation: actual compress/decompress
+  purpose: low-complexity floor
+  known_risk: zoo model revision changes; pin framework and weight URL/hash
+- id: compressai_hyperprior
+  family: general_lic
+  priority: P0
+  repo_id: compressai
+  implementation_status: framework_reference
+  model: bmshj2018-hyperprior
+  required: true
+  training: pretrained zoo
+  rate_points: quality indices
+  evaluation: actual compress/decompress
+  purpose: hyperprior floor
+  known_risk: framework model is not necessarily original TensorFlow byte-equivalent
+- id: compressai_joint_ar
+  family: general_lic
+  priority: P1
+  repo_id: compressai
+  implementation_status: framework_reference
+  model: mbt2018-mean or mbt2018
+  required: false
+  training: pretrained zoo
+  rate_points: quality indices
+  evaluation: actual compress/decompress
+  purpose: autoregressive reference
+  known_risk: slow sequential entropy decoding
+- id: mlicpp
+  family: high_performance_lic
+  priority: P0
+  repo_id: mlic
+  implementation_status: official_uncertain_match
+  model: MLIC++ corrected architecture
+  required: true
+  training: MLIC-Train-100K; optional published checkpoints
+  rate_points: MSE lambdas 0.0018,0.0035,0.0067,0.013,0.025,0.0483 where available
+  evaluation: repository actual compress/decompress path
+  purpose: primary base codec
+  known_risk: old/new architecture classes and corrected checkpoint must not be mixed
+- id: dcae
+  family: dictionary_entropy
+  priority: P1
+  repo_id: dcae
+  implementation_status: official
+  model: DCAE
+  required: false
+  training: OpenImages
+  rate_points: MSE lambdas 0.0018..0.05
+  evaluation: compress_and_decompress.py actual files
+  purpose: dictionary prior alternative
+  known_risk: unlocked dependencies and repository clone URL mismatch in README history
+- id: ftic
+  family: transformer_lic
+  priority: P1
+  repo_id: ftic
+  implementation_status: official
+  model: FTIC
+  required: false
+  training: paper/repo corpus
+  rate_points: MSE and MS-SSIM checkpoints
+  evaluation: repository eval plus actual stream verification
+  purpose: frequency-aware Transformer comparison
+  known_risk: confirm actual entropy coder in evaluation command
+- id: lalic
+  family: linear_attention_lic
+  priority: P1
+  repo_id: lalic
+  implementation_status: official
+  model: LALIC
+  required: false
+  training: paper corpus
+  rate_points: published checkpoints/results
+  evaluation: actual coding if supported
+  purpose: efficient long-range baseline
+  known_risk: custom CUDA BiWKV build
+- id: mambaic
+  family: state_space_lic
+  priority: P2
+  repo_id: mambaic
+  implementation_status: author_reimplementation
+  model: MambaIC reimplementation
+  required: false
+  training: Flickr30k in released code
+  rate_points: released checkpoints
+  evaluation: repo protocol
+  purpose: SSM comparison
+  known_risk: not exact original paper code; training-corpus fairness
+- id: jpeg_ai_vm
+  family: standard
+  priority: P0
+  repo_id: jpeg_ai_vm
+  implementation_status: reference_software
+  model: selected VM profile/tag
+  required: true
+  training: reference assets
+  rate_points: target bpp or QP/profile points
+  evaluation: reference encoder/decoder and conformance tools
+  purpose: current learned standard anchor
+  known_risk: version/profile/config and patent/standards terms
+- id: lai_text_logit
+  family: ocr_aware
+  priority: P0
+  repo_id: null
+  implementation_status: transparent_reimplementation_required
+  model: selected base codec + single OCR logit loss
+  required: true
+  training: same data/base as OSCAR fair comparison
+  rate_points: same lambda/budget grid
+  evaluation: same OCR suite and total rate
+  purpose: closest loss-only baseline
+  known_risk: paper official code not located; do not label author reproduction
+- id: tfic
+  family: ocr_aware
+  priority: P1
+  repo_id: null
+  implementation_status: author_reported_or_reimplementation
+  model: Transformer codec + frozen OCR CE
+  required: false
+  training: synthetic text
+  rate_points: very low bpp
+  evaluation: synthetic and real held-out OCR
+  purpose: coding-for-OCR comparison
+  known_risk: single OCR and limited synthetic data
+- id: uniform_text_mask
+  family: ocr_aware_control
+  priority: P0
+  repo_id: null
+  implementation_status: project_control
+  model: same base/text stream, uniform allocation inside detected mask
+  required: true
+  training: same as OSCAR
+  rate_points: exact matched text-stream budgets
+  evaluation: same total files
+  purpose: tests whether utility beats simple ROI
+  known_risk: mask generation rate/computation must match
+- id: detector_confidence
+  family: ocr_aware_control
+  priority: P0
+  repo_id: null
+  implementation_status: project_control
+  model: allocate by text detector confidence
+  required: true
+  training: same as OSCAR
+  rate_points: matched budget
+  evaluation: same
+  purpose: strong heuristic control
+  known_risk: detector confidence may be poorly calibrated
+- id: random_utility
+  family: ocr_aware_control
+  priority: P0
+  repo_id: null
+  implementation_status: project_control
+  model: same candidate set, shuffled utility ranking
+  required: true
+  training: none
+  rate_points: matched budget and seed
+  evaluation: multiple random seeds
+  purpose: isolates ranking contribution
+  known_risk: must preserve candidate count and bit distribution
+- id: picd
+  family: semantic_assisted_generative
+  priority: P1
+  repo_id: null
+  implementation_status: author_reported_only_until_code
+  model: PICD
+  required: false
+  training: WebUI/domain LoRA per paper
+  rate_points: paper settings
+  evaluation: Track B only; include image/text/position streams
+  purpose: screen-content semantic-side-channel comparison
+  known_risk: code availability, OCR string errors, runtime and privacy
+- id: rdvq
+  family: vq_generative
+  priority: P2
+  repo_id: rdvq
+  implementation_status: official
+  model: RDVQ
+  required: false
+  training: paper configs
+  rate_points: transfer slices/test-time control
+  evaluation: perceptual plus OCR exactness
+  purpose: VQ extension baseline
+  known_risk: heavy stack and license/third-party components
+- id: cod
+  family: diffusion_generative
+  priority: P2
+  repo_id: gencodec
+  implementation_status: official
+  model: CoD downstream codec
+  required: false
+  training: released weights/configs
+  rate_points: ultra-low rate
+  evaluation: perceptual and text semantics
+  purpose: compression-specific diffusion prior
+  known_risk: large decoder and text hallucination
+- id: tgic
+  family: semantic_text_guided
+  priority: P2
+  repo_id: null
+  implementation_status: author_reported_only
+  model: TGIC multimodal text-guided codec
+  required: false
+  training: paper captioned datasets
+  rate_points: paper low-rate settings
+  evaluation: Track B; actual image plus compressed-caption rate
+  purpose: early multimodal caption-guided comparison
+  known_risk: official code not confirmed; caption semantics do not measure exact OCR preservation
+- id: taco_text_guided
+  family: semantic_text_guided
+  priority: P2
+  repo_id: null
+  implementation_status: author_reported_or_transparent_reimplementation
+  model: text-adaptive encoding with joint image-text loss
+  required: false
+  training: paper MS-COCO and caption settings
+  rate_points: paper conventional-rate settings
+  evaluation: Track B; human and machine caption variants with total caption rate
+  purpose: non-generative text-guided encoder comparison
+  known_risk: official code not confirmed; caption generation and rate policy strongly affect result
+- id: image_text_coding_lmm
+  family: semantic_text_guided_generative
+  priority: P2
+  repo_id: image_text_coding
+  implementation_status: official
+  model: LMM-driven semantic image-text coding
+  required: false
+  training: released paper configuration and weights
+  rate_points: ultra-low-rate paper settings
+  evaluation: Track B; image, caption, prompts, indexes and container overhead counted
+  purpose: official caption-side-information baseline
+  known_risk: large external model stack, separate weight licenses, caption privacy and restoration hallucination
+- id: selic
+  family: semantic_text_guided
+  priority: P2
+  repo_id: null
+  implementation_status: author_reported_or_transparent_reimplementation
+  model: BLIP/BERT semantic latent fusion with ChARM/hyperprior
+  required: false
+  training: CLIC and LIU4K per paper
+  rate_points: paper MSE lambda grid
+  evaluation: Track B unless serialized semantic-latent accounting is independently verified
+  purpose: semantic-latent encoder comparison
+  known_risk: official code not confirmed; encoder model/API versions and exact semantic rate path must
+    be audited

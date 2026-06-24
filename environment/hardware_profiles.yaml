@@ -1,0 +1,17 @@
+profiles:
+- id: smoke_cpu
+  purpose: metric/bitstream unit tests
+  requirements: x86_64 CPU, >=16 GB RAM
+  batch_size: 1
+- id: single_24gb
+  purpose: adapter/utility prototype
+  requirements: 1 CUDA GPU >=24 GB, >=64 GB RAM
+  expected_limit: small crops or frozen OCR
+- id: single_80gb
+  purpose: full MLIC++ joint fine-tuning
+  requirements: 1 A100/H100 class 80 GB
+  expected_limit: batch/teacher ensemble still benchmark first
+- id: multi_4x80gb
+  purpose: full training and multi-rate experiments
+  requirements: 4 GPUs 80 GB, fast local SSD
+  expected_limit: counterfactual label generation can remain bottleneck

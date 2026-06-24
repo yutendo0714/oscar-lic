@@ -1,0 +1,70 @@
+snapshot_date: '2026-06-24'
+rules:
+- No held-out evaluator may contribute gradients, pseudo-labels, utility labels or
+  hyperparameter selection.
+- Pin recognizer, detector, tokenizer/charset, decoding and preprocessing independently.
+- Report both recognizer-only oracle-crop and end-to-end detector+recognizer; main
+  result is end-to-end unless task explicitly provides crops.
+models:
+- id: parseq_train
+  role: train_teacher
+  repo_id: parseq
+  architecture: PARSeq
+  checkpoint: parseq default pretrained; hash pending
+  input_size:
+  - 32
+  - 128
+  charset_profile: 94_full_candidate
+  decoder: greedy primary; optional AR refinement fixed
+  gradient: true
+  status: selected
+- id: crnn_train
+  role: train_teacher
+  repo_id: parseq
+  architecture: CRNN reproduced in model hub
+  checkpoint: hash pending
+  input_size: model config
+  charset_profile: align via canonical projection
+  decoder: CTC greedy
+  gradient: true
+  status: selected
+- id: abinet_train
+  role: train_teacher
+  repo_id: parseq
+  architecture: ABINet reproduced in model hub
+  checkpoint: hash pending
+  input_size: model config
+  charset_profile: align via canonical projection
+  decoder: model default fixed
+  gradient: true
+  status: selected_optional
+- id: trocr_heldout
+  role: heldout_evaluator
+  repo_id: trocr
+  architecture: TrOCR
+  checkpoint: model ID/revision pending
+  input_size: processor config
+  charset_profile: unicode
+  decoder: beam=1 primary; fixed max length
+  gradient: false
+  status: candidate
+- id: paddleocr_heldout
+  role: heldout_evaluator
+  repo_id: paddleocr
+  architecture: PaddleOCR selected multilingual recognizer/detector
+  checkpoint: bundle/version pending
+  input_size: bundle config
+  charset_profile: language specific
+  decoder: default pinned
+  gradient: false
+  status: candidate
+- id: tesseract_heldout
+  role: heldout_evaluator
+  repo_id: tesseract
+  architecture: Tesseract LSTM
+  checkpoint: tessdata commit/languages pending
+  input_size: native
+  charset_profile: language pack
+  decoder: PSM/OEM fixed by domain
+  gradient: false
+  status: candidate

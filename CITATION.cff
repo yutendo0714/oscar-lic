@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite the eventual OSCAR-LIC paper and all upstream methods used. Replace the placeholder author before release."
+title: "OSCAR-LIC Research Repository"
+type: software
+version: 0.1.0-bootstrap
+date-released: 2026-06-24
+license: MIT
+authors:
+  - family-names: "Project Contributors"
+abstract: "Research scaffolding for OCR-invariant scalable learned image compression."

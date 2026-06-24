@@ -1,0 +1,23 @@
+schema_version: 1
+hypotheses:
+  - id: H0
+    statement: Repository, rate and OCR evaluation are internally valid and reproducible.
+    falsification: Unit tests, actual bit accounting or known OCR examples fail.
+  - id: H1
+    statement: Counterfactual marginal OCR utility per actual bit beats binary mask and uniform text allocation at matched total bytes.
+    falsification: Oracle utility does not improve held-out validation OCR across at least two domains.
+  - id: H2
+    statement: Multi-teacher supervision and teacher dropout improve held-out OCR over a single-teacher loss.
+    falsification: Improvement exists only on training teachers or disappears under matched rate.
+  - id: H3
+    statement: A stroke/topology-oriented enhancement target improves small-text recognition efficiency.
+    falsification: It gives no matched-rate gain over a learned residual or harms non-text quality materially.
+  - id: H4
+    statement: A learned utility predictor retains enough oracle advantage to beat heuristic rankings.
+    falsification: It fails random, detector-confidence or uncertainty controls on held-out OCR.
+  - id: H5
+    statement: A scalable base plus enhancement stream gives controllable OCR gains with correct rate monotonicity.
+    falsification: Base cannot decode independently or enhancement causes frequent aggregate regressions.
+  - id: H6
+    statement: Utility-aware unequal error protection lowers OCR degradation at matched protection overhead.
+    falsification: Uniform protection is equal or better over the preregistered channel suite.

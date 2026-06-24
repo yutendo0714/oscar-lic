@@ -1,0 +1,70 @@
+{
+  "captured_at": "2026-06-24T19:20:57.099688+00:00",
+  "python": "3.10.12 (main, May 21 2026, 00:03:45) [GCC 15.2.0]",
+  "python_executable": "/workspace/oscar-lic/.venv-mlic/bin/python",
+  "platform": "Linux-5.4.0-216-generic-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "processor": "",
+  "packages": {
+    "PyYAML": "6.0.3",
+    "jsonschema": null,
+    "numpy": "1.26.4",
+    "Pillow": "10.4.0",
+    "pytest": null,
+    "torch": "2.0.1+cu118",
+    "torchvision": "0.15.2+cu118",
+    "compressai": "1.2.0b3"
+  },
+  "commands": {
+    "git": {
+      "command": [
+        "git",
+        "--version"
+      ],
+      "returncode": 0,
+      "stdout": "git version 2.53.0",
+      "stderr": ""
+    },
+    "nvidia_smi": {
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=name,driver_version,memory.total",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 4070 Ti SUPER, 570.148.08, 16376 MiB",
+      "stderr": ""
+    },
+    "nvcc": {
+      "command": [
+        "nvcc",
+        "--version"
+      ],
+      "error": "[Errno 2] No such file or directory: 'nvcc'"
+    },
+    "conda": {
+      "command": [
+        "conda",
+        "--version"
+      ],
+      "error": "[Errno 2] No such file or directory: 'conda'"
+    }
+  },
+  "executables": {
+    "git": "/usr/bin/git",
+    "nvidia-smi": "/usr/bin/nvidia-smi",
+    "nvcc": null,
+    "conda": null,
+    "ffmpeg": null
+  },
+  "torch_runtime": {
+    "version": "2.0.1+cu118",
+    "cuda_available": true,
+    "cuda_version": "11.8",
+    "cudnn_version": 8700,
+    "gpu_count": 1,
+    "gpus": [
+      "NVIDIA GeForce RTX 4070 Ti SUPER"
+    ]
+  }
+}

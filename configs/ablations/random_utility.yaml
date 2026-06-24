@@ -1,0 +1,10 @@
+config_version: 1
+method_id: random_utility
+candidate_set: identical_to_oscar
+ranking: deterministic_shuffle
+allocation_seeds: [101, 103, 107, 109, 113, 127, 131, 137, 139, 149]
+preserve:
+  - candidate_count
+  - packet_sizes
+  - total_byte_budget
+report_mean_and_interval: true

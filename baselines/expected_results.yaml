@@ -1,0 +1,45 @@
+snapshot_date: '2026-06-24'
+important: Author-reported anchors are not local acceptance values. Local regression
+  values must be populated only after a valid run and then frozen with hashes.
+anchors:
+- baseline: mlicpp
+  source: author README/paper
+  type: BD-rate vs VTM-17.0 PSNR
+  dataset: Kodak
+  value_percent: -13.39
+  local_reproduced: false
+- baseline: mlicpp
+  source: author README/paper
+  type: BD-rate vs VTM-17.0 PSNR
+  dataset: Tecnick
+  value_percent: -17.59
+  local_reproduced: false
+- baseline: mlicpp
+  source: author README/paper
+  type: BD-rate vs VTM-17.0 PSNR
+  dataset: CLIC Pro valid
+  value_percent: -13.08
+  local_reproduced: false
+- baseline: lai_text_logit
+  source: paper
+  type: average BD-rate at fixed CER
+  dataset: two screenshot datasets
+  value_percent: -32.64
+  local_reproduced: false
+- baseline: lai_text_logit
+  source: paper
+  type: average BD-rate at fixed WER
+  dataset: two screenshot datasets
+  value_percent: -28.03
+  local_reproduced: false
+acceptance_rules:
+  round_trip: decoder output from saved bitstream must be deterministic for fixed
+    software/hardware profile or documented otherwise
+  file_rate: reported total bytes must match filesystem size exactly
+  estimated_vs_actual: difference is reported; no universal tolerance until measured
+    per model
+  checkpoint_regression: after first valid reproduction, freeze per-image bpp/PSNR
+    within absolute tolerances of 1e-6 for CPU-deterministic components and documented
+    GPU tolerance for transforms
+  paper_curve: do not fail reproduction solely on a BD-rate number until VTM version,
+    points, RGB/YUV and interpolation match

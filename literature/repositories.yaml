@@ -1,0 +1,280 @@
+snapshot_date: '2026-06-24'
+pinning_policy: Use pinned_commit when present. For null pins, resolve and write a lock before execution.
+  Never silently use a moving branch in a reported experiment.
+repositories:
+- id: compressai
+  role:
+  - framework
+  - baseline_models
+  - entropy_coder
+  url: https://github.com/InterDigitalInc/CompressAI
+  official: true
+  default_branch: master
+  pinned_commit: 81e018a2c68109d579020ba4bfa80378a366de28
+  license: BSD-3-Clause-like; no express patent license
+  license_verified: true
+  code_status: active
+  environment_note: Latest master contains post-2025 models; do not assume compatibility with MLIC legacy
+    environment.
+  priority: P0
+- id: compressai_vision
+  role:
+  - icm_evaluation
+  url: https://github.com/InterDigitalInc/CompressAI-Vision
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: active
+  environment_note: Pin before use; align task model and dataset versions.
+  priority: P1
+- id: mlic
+  role:
+  - primary_base_codec
+  - entropy_model
+  url: https://github.com/JiangWeibeta/MLIC
+  official: true
+  default_branch: main
+  pinned_commit: 4aa9d2a512eb9db382172058e6c278fb0d376e17
+  license: Apache-2.0
+  license_verified: true
+  code_status: official
+  environment_note: README states CompressAI 1.2.0b3 and PyTorch 2.0.1. Corrected architecture/checkpoint
+    notes must be followed.
+  priority: P0
+- id: ftic
+  role:
+  - transformer_baseline
+  url: https://github.com/qingshi9974/ICLR2024-FTIC
+  official: true
+  default_branch: main
+  pinned_commit: e0d488626d4744cd17bb9c6887ed64a5907fa63a
+  license: verify
+  license_verified: false
+  code_status: official
+  environment_note: Check release checkpoints and actual entropy-coding path.
+  priority: P1
+- id: dcae
+  role:
+  - secondary_base_codec
+  - dictionary_entropy
+  url: https://github.com/CVL-UESTC/DCAE
+  official: true
+  default_branch: main
+  pinned_commit: e2525a00467cbc326045674c7e5e0f1d9964604b
+  license: verify; no license conclusion from README alone
+  license_verified: false
+  code_status: official
+  environment_note: README lists unpinned pip dependencies; create lock after successful reproduction.
+  priority: P0
+- id: lalic
+  role:
+  - efficient_long_range_baseline
+  url: https://github.com/sjtu-medialab/RwkvCompress
+  official: true
+  default_branch: main
+  pinned_commit: d2808464be304a956ff94687b1b0f2c1e68fe8dc
+  license: verify including upstream CUDA operator notices
+  license_verified: false
+  code_status: official
+  environment_note: Custom CUDA BiWKV operator; compile compatibility test required.
+  priority: P1
+- id: mambaic
+  role:
+  - ssm_baseline
+  url: https://github.com/AuroraZengfh/MambaIC
+  official: false
+  default_branch: main
+  pinned_commit: 160c43f51cfd22f91b9782cee55b545fa8939324
+  license: verify
+  license_verified: false
+  code_status: author_reimplementation_not_exact_original
+  environment_note: Repository explicitly states it is not the exact paper code; report as reimplementation.
+  priority: P2
+- id: parseq
+  role:
+  - ocr_train_teacher
+  - ocr_model_hub
+  url: https://github.com/baudm/parseq
+  official: true
+  default_branch: main
+  pinned_commit: 1902db043c029a7e03a3818c616c06600af574be
+  license: Apache-2.0 main; ABINet BSD; CRNN MIT components
+  license_verified: true
+  code_status: official
+  environment_note: Python >=3.9, PyTorch >=2.0; charset and decoding profile must be pinned.
+  priority: P0
+- id: paddleocr
+  role:
+  - heldout_ocr
+  - multilingual_ocr
+  url: https://github.com/PaddlePaddle/PaddleOCR
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: Apache-2.0 commonly; verify snapshot and model terms
+  license_verified: false
+  code_status: active
+  environment_note: Pin code, model bundle and language dictionary separately.
+  priority: P1
+- id: tesseract
+  role:
+  - heldout_ocr
+  - classical_ocr
+  url: https://github.com/tesseract-ocr/tesseract
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: Apache-2.0 commonly; language data terms separate
+  license_verified: false
+  code_status: active
+  environment_note: Record engine version, tessdata commit, PSM/OEM and language packs.
+  priority: P1
+- id: trocr
+  role:
+  - heldout_recognizer
+  url: https://github.com/microsoft/unilm
+  official: true
+  default_branch: master
+  pinned_commit: null
+  license: MIT repository; pretrained model terms verify
+  license_verified: false
+  code_status: official_monorepo
+  environment_note: Pin model identifier/revision and tokenizer.
+  priority: P1
+- id: rdvq
+  role:
+  - vq_generative_baseline
+  url: https://github.com/CVL-UESTC/RDVQ
+  official: true
+  default_branch: main
+  pinned_commit: a2744eedd803d9e20b55b4b0c935ec211a07d184
+  license: CC-BY-4.0 advertised; verify code/weights/third-party scope
+  license_verified: false
+  code_status: official
+  environment_note: Python/PyTorch requirements changed in repository; use environment file at pin.
+  priority: P2
+- id: gencodec
+  role:
+  - diffusion_baseline
+  - CoD
+  url: https://github.com/microsoft/GenCodec
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: official
+  environment_note: CoD is under subdirectory; pin foundation weights and downstream codec configs.
+  priority: P2
+- id: aeic
+  role:
+  - one_step_generative_baseline
+  url: https://github.com/LuizScarlet/AEIC
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: official
+  environment_note: Use only after pure utility stream gate; evaluate deterministic text fidelity.
+  priority: P2
+- id: cdc
+  role:
+  - diffusion_baseline
+  url: https://github.com/buggyyang/CDC_compression
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: official
+  environment_note: Record diffusion steps and sampling seed.
+  priority: P2
+- id: perco_open
+  role:
+  - ultralow_generative_baseline
+  url: https://github.com/Nikolai10/PerCo
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify foundation-model terms
+  license_verified: false
+  code_status: verify_release_completeness
+  environment_note: Stable Diffusion dependencies and weights can have separate licenses.
+  priority: P2
+- id: dicm
+  role:
+  - compressed_domain_icm_baseline
+  url: https://github.com/Tongji-MIC-Lab/DICM
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: author
+  environment_note: Confirm paper metadata and task checkpoints.
+  priority: P2
+- id: bridging_mllm
+  role:
+  - compressed_latent_mllm_baseline
+  url: https://github.com/NYCU-MAPL/BridgingCompressionMLLM
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify including MLLM weights
+  license_verified: false
+  code_status: official
+  environment_note: Large model licenses and exact revisions must be recorded.
+  priority: P2
+- id: robustnic
+  role:
+  - robustness_defense_baseline
+  url: https://github.com/tongxyh/ImageCompression_Adversarial
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify
+  license_verified: false
+  code_status: author
+  environment_note: Confirm attack norms, epsilon and actual-bit evaluation.
+  priority: P1
+- id: rho_vision
+  role:
+  - raw_icm_baseline
+  url: https://github.com/NJUVISION/rho-vision
+  official: true
+  default_branch: main
+  pinned_commit: null
+  license: verify code and MultiRAW dataset separately
+  license_verified: false
+  code_status: official
+  environment_note: Camera/sensor split is mandatory.
+  priority: P2
+- id: jpeg_ai_vm
+  role:
+  - standard_reference
+  url: https://gitlab.com/wg1/jpeg-ai/jpeg-ai-reference-software
+  official: true
+  default_branch: verify
+  pinned_commit: null
+  license: BSD-3-Clause on project page; standard/patent terms separate
+  license_verified: true
+  code_status: reference_software
+  environment_note: Record VM version/tag, profile, decoder branch and conformance status.
+  priority: P0
+- id: image_text_coding
+  role:
+  - semantic_text_guided_baseline
+  - caption_side_information_baseline
+  url: https://github.com/tokkiwa/ImageTextCoding
+  official: true
+  default_branch: main
+  pinned_commit: ae3e4f3dab4ea620e8c25fbb70122cccd3b48f37
+  license: verify code, LMM, DiffBIR, GPTZip and checkpoint terms separately
+  license_verified: false
+  code_status: official
+  environment_note: Repository combines CompressAI, LMM caption generation/compression and DiffBIR; pin
+    all external model revisions and include caption bytes and prompts in total rate.
+  priority: P1

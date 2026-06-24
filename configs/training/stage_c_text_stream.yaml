@@ -1,0 +1,31 @@
+config_version: 1
+stage: C_text_stream
+model: configs/model/oscar_mlicpp_v1.yaml
+initialization:
+  base_checkpoint: required
+  freeze_base: true
+trainable: [utility_predictor, allocator, text_encoder, text_hyperprior, text_entropy_parameters, fusion_decoder]
+loss_weights:
+  rate: 1.0
+  distortion: 1.0
+  ocr_invariant: 0.05
+  sequence: 0.02
+  topology: 0.0
+  utility: 1.0
+  budget: 0.1
+optimizer:
+  type: adamw
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+scheduler:
+  type: cosine
+  warmup_steps: 5000
+training:
+  max_steps: 250000
+  batch_size: 8
+  crop_size: [256, 256]
+  mixed_precision: fp16
+  gradient_clip_norm: 1.0
+  validate_every: 5000
+  save_every: 5000
+  seeds: [17, 23, 47]
