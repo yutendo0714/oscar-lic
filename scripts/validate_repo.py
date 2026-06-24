@@ -24,6 +24,9 @@ IGNORED_PARTS = {
 }
 IGNORED_PREFIXES = {
     ("data", "raw"),
+    ("experiments", "checkpoints"),
+    ("experiments", "logs"),
+    ("experiments", "results"),
 }
 sys.path.insert(0, str(ROOT / "src"))
 

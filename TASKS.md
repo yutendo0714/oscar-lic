@@ -11,17 +11,18 @@
 - [ ] Review `LICENSES.md` and approve only the datasets required for the first smoke run.
 - [x] Clone P0 external repositories at registered commits.
 - [ ] Review cloned external repository code/licenses before executing third-party experiments.
-- [ ] Download one corrected MLIC++ checkpoint; record source, size and SHA256.
+- [x] Download one corrected MLIC++ checkpoint; record source, size and SHA256.
 - [x] Create and hash a deterministic project-owned five-image smoke set (`data/toy`).
 - [x] Build bootstrap and MLIC++ reproduction venvs.
 - [x] Verify CUDA visibility in MLIC++ reproduction venv.
 - [x] Link available `/dpl` datasets into `data/raw` and generate local availability manifests.
 - [x] Create an offline wandb foundation run.
+- [x] Run MLIC++ corrected-checkpoint actual compress/decompress smoke on two CLIC images.
 
 ## P1 — Baseline foundation
 
 - [ ] Reproduce CompressAI hyperprior actual-bitstream smoke (`B001`).
-- [ ] Reproduce MLIC++ one operating point (`B010`).
+- [ ] Reproduce MLIC++ one operating point (`B010`) on a frozen validation subset.
 - [ ] Freeze internal regression values and tolerances in `baselines/expected_results.yaml`.
 - [ ] Lock PARSeq teacher checkpoint and preprocessing.
 - [ ] Lock at least one held-out OCR evaluator and detector mode.

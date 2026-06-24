@@ -27,6 +27,8 @@
 - Linked available `/dpl` datasets into `data/raw/` and generated local manifests for MLIC-Train-100K and CLIC.
 - Created an offline wandb setup run: `wandb/offline-run-20260625_042120-n0ryq4yw`.
 - Added foundation notes in `docs/FOUNDATION_SETUP_2026_06_25.md`, `docs/OSCAR_LIC_UNDERSTANDING.md`, `docs/NEXT_EXPERIMENT_PLAN.md`, and `literature/state_of_the_art_2026_06_25.md`.
+- Downloaded corrected MLIC++ lambda 0.0250 checkpoint and recorded SHA256/size in `baselines/checkpoint_manifest.yaml`.
+- Ran actual compress/decompress smoke on two CLIC validation images with complete stream-byte bpp accounting; see `experiments/reports/mlicpp_smoke_2026_06_25.md`.
 
 ## Truthfully unresolved
 
@@ -37,15 +39,15 @@
 - No MLIC++ or other codec result has been reproduced on target hardware yet.
 - No OCR model bundle has been frozen locally.
 - No OSCAR-LIC neural training has been run.
-- Checkpoint weights are not downloaded or hashed yet.
+- PARSeq and DCAE checkpoint weights are not downloaded or hashed yet.
 
 ## Immediate objective
 
 Resolve B01–B03 sufficiently to run `B001` and `B010`:
 
 1. use the existing project-owned toy set for `B001` and separately approve scientific benchmark data;
-2. download one corrected MLIC++ checkpoint and record SHA256;
-3. produce and inspect real compressed files;
+2. run MLIC++ one operating point on a frozen validation subset;
+3. reproduce CompressAI actual-bitstream smoke;
 4. freeze the first internal regression point.
 
 In parallel, lock one train OCR teacher and one held-out evaluator, then run `O002` only after checkpoint/data provenance is complete.

@@ -3,12 +3,13 @@ checkpoints:
 - id: mlicpp_mse_0025_corrected
   baseline: mlicpp
   source_url: https://drive.google.com/file/d/1FWPezuHLTQhDmEhShViI3XOSXA5u_Bya/view
-  sha256: null
-  size_bytes: null
+  local_path: experiments/checkpoints/mlicpp/mlicpp_mse_0025_corrected.pth.tar
+  sha256: 67af8c950a4e8ae03da9bc95b87d13fd7831063ad12b7df1f872154e0082c559
+  size_bytes: 1004218690
   architecture: corrected LatentResidualPrediction and SynthesisTransform
   license_status: inherits/requires manual verification
-  download_status: not_downloaded
-  notes: Author README update 2024-04-08; do not use Old classes.
+  download_status: downloaded_2026-06-25
+  notes: Author README update 2024-04-08; do not use Old classes. Loaded successfully with MLICPlusPlus; checkpoint epoch 612, loss 1.0770463943481445.
 - id: parseq_default
   baseline: ocr_parseq
   source_url: torch.hub:baudm/parseq:parseq

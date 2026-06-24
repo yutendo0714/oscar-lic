@@ -36,11 +36,12 @@ Key pins:
 - Pillow 12.2.0
 - pytest 9.0.2
 - wandb 0.28.0
+- gdown 6.1.0
 
 Lock:
 
 - `environment/locks.bootstrap-py310.txt`
-- SHA256: `64f4f8eb48d53218a5fcdb28b2cae156425c8a383a736d872af18bc18d236f5b`
+- SHA256: `f9fbb67fef3cbec08c6006e9f6cd11d907af59b089359c565802c9da4ff37ec8`
 
 Note: the original package pinned NumPy 2.3.5, which requires Python >=3.11. For MLIC++ compatibility, the active bootstrap env uses Python 3.10 and NumPy 2.2.6.
 
@@ -133,4 +134,3 @@ Warnings:
 3. Freeze a PARSeq teacher checkpoint and at least one held-out OCR evaluator.
 4. Implement a base codec adapter boundary rather than modifying MLIC++ internals broadly.
 5. Add wandb logging hooks to actual training/evaluation scripts before the first learned run.
-
