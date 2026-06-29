@@ -17,4 +17,7 @@ dependencies:
       - editdistance>=0.8
       - pillow>=9.5,<11
       - numpy>=1.23,<2
+      - transformers==4.41.2
+      - tokenizers==0.19.1
+      - sentencepiece==0.2.0
 # Install the pinned PARSeq repository editable after environment creation.

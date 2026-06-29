@@ -12,19 +12,41 @@ checkpoints:
   notes: Author README update 2024-04-08; do not use Old classes. Loaded successfully with MLICPlusPlus; checkpoint epoch 612, loss 1.0770463943481445.
 - id: parseq_default
   baseline: ocr_parseq
-  source_url: torch.hub:baudm/parseq:parseq
-  sha256: null
-  size_bytes: null
+  source_url: https://github.com/baudm/parseq/releases/download/v1.0.0/parseq-bb5792a6.pt
+  local_path: /root/.cache/torch/hub/checkpoints/parseq-bb5792a6.pt
+  sha256: bb5792a68e367476abca029cbf8699abc805f3d3dc7e57aae45c8ec4f7b7cd00
+  size_bytes: 95392675
   architecture: PARSeq default, 94 chars + EOS in default example
   license_status: repo Apache-2.0; weights/data terms verify
-  download_status: not_downloaded
-  notes: Pin torch hub repository commit and cached file hash.
+  download_status: downloaded_2026-06-25
+  notes: Loaded through pinned external/parseq commit 1902db043c029a7e03a3818c616c06600af574be with decode_ar=true and refine_iters=1 for smoke regressions.
+- id: trocr_small_printed
+  baseline: ocr_trocr
+  source_url: https://huggingface.co/microsoft/trocr-small-printed
+  local_path: /root/.cache/huggingface/hub/models--microsoft--trocr-small-printed/snapshots/04e994ab854b0089d4929f48c2b4dbe2ce78a340/model.safetensors
+  sha256: 49350a39968df83e5a1adc90fc0ede02ff247671aed70b842af350fd4a7103f3
+  size_bytes: 245839136
+  architecture: TrOCR small printed, VisionEncoderDecoderModel
+  license_status: model card/manual verification required before publication use
+  download_status: downloaded_2026-06-25
+  notes: Hugging Face revision 04e994ab854b0089d4929f48c2b4dbe2ce78a340; tokenizer/preprocessor hashes recorded in baselines/ocr_models.yaml.
+- id: torchvision_alexnet_imagenet1k_v1_visual_diagnostic
+  baseline: diagnostic_visual_encoder
+  source_url: https://download.pytorch.org/models/alexnet-owt-7be5be79.pth
+  local_path: /root/.cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth
+  sha256: 7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02
+  size_bytes: 244408911
+  architecture: torchvision AlexNet IMAGENET1K_V1 fixed feature encoder
+  license_status: torchvision code BSD-3-Clause; ImageNet-trained weight/data terms require manual verification before publication use
+  download_status: preexisting_cache_verified_2026-06-26
+  notes: Used only for non-promotion fixed-embedding selector diagnostics unless license review approves publication-scale use.
 - id: dcae_mse_0013
   baseline: dcae
   source_url: https://drive.google.com/file/d/1kXfvxsljdN3EfXDGqzknFc2Ecsgf8qgS/view
-  sha256: null
-  size_bytes: null
+  local_path: experiments/checkpoints/dcae/dcae_mse_0013.pth.tar
+  sha256: aec3992a15648195e44d5b6bc3d971a19b272335086878cf1b7c6de5b411a4c1
+  size_bytes: 1434279774
   architecture: DCAE lambda 0.013 MSE
-  license_status: manual verification
-  download_status: not_downloaded
-  notes: Source recorded from official README.
+  license_status: code MIT; checkpoint/data terms manual verification before publication
+  download_status: downloaded_2026-06-26
+  notes: Source recorded from official README. Normal torch.load required because PyTorch 2.0 weights_only rejects collections.Counter in the checkpoint; loaded from pinned official source after SHA256 recording. Checkpoint epoch 97, loss 0.8895649313926697. Actual compress/decompress smoke passed on two toy images with avg actual bpp 0.15104166666666669 and avg PSNR 39.25324289673054 using scripts/run_dcae_smoke.py.

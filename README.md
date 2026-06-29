@@ -19,6 +19,17 @@
 9. `data/registry.yaml`
 10. `experiments/EXPERIMENT_MATRIX.csv`
 
+## 2026-06-25 現在の研究状態
+
+このworkspaceはbootstrapを超えて、corrected MLIC++を固定baseにした実bitstream counted OSCAR-LIC text-enhancement研究へ進んでいます。直近の入口は次です。
+
+- `docs/HANDOFF.md`: 現在のbest learned baseline、固定baseline asset、次に試すべき実験。
+- `experiments/manifests/oscar_lic_12h_repro_manifest_2026_06_25.yaml`: checkpoint SHA、W&B run、主要artifact SHA、最終検証を束ねた再現用manifest。
+- `experiments/reports/oscar_lic_12h_research_summary_2026_06_25.md`: 12時間自律研究の要約。
+- `configs/training/assignment_group_noop_window_v0.yaml`: 次のgroup/no-op assignment modelの開始config。
+
+現時点のpromoted resultは、推定bitrateではなく実際の`.oscr` compress/decompress byte数で評価した、pooled image-diff group gate over corrected MLIC++です。PARSeqは不変、Tesseract PSM8はnearest K64 assignment比で`-8` unicode / `-8` latin-alnum edit characters、actual mean bppは`3.849649`です。
+
 ## このsnapshotに含まれるもの
 
 - LIC、generative compression、semantic text-guided compression、ICM、OCR-aware compression、RAW、robustnessの体系的survey（58 structured records）

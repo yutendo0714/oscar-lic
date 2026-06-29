@@ -19,9 +19,10 @@ This file distinguishes information completeness from external asset availabilit
 - [x] OCR normalization profiles
 - [x] environment separation policy
 - [x] repository pins for priority assets where verified
-- [ ] local checkpoint hashes — resolved only after download
+- [x] local checkpoint hashes for corrected MLIC++ lambda 0.025, PARSeq and TrOCR
 - [ ] local dataset manifests — resolved only after approved acquisition
-- [ ] reproduced baseline numbers — no compute run yet
+- [x] reproduced smoke/small baseline numbers for corrected MLIC++, CompressAI, OCR evaluators and actual `.oscr` accounting
+- [ ] full paper RD-curve baseline numbers
 
 ## Operations
 
@@ -43,4 +44,4 @@ This file distinguishes information completeness from external asset availabilit
 
 ## Meaning of “ready”
 
-The repository is ready for an agent to **begin** research after G0. It does not claim that external licenses are approved, checkpoints are locally immutable, or baseline results have been reproduced. Those facts cannot be truthfully pre-filled without the target institution, hardware and downloaded bytes.
+The repository is ready for an agent to **continue** the corrected-MLIC++ frozen-base OSCAR-LIC assignment research after the 2026-06-25 G4 conditional-go pass. It does not claim that external licenses are approved, all checkpoints are locally immutable, full RD curves have been reproduced, or the promoted Eval300 pilot is publication-scale by itself. Those facts cannot be truthfully pre-filled without the target institution, hardware, approved datasets and downloaded bytes.

@@ -10,61 +10,138 @@ models:
   role: train_teacher
   repo_id: parseq
   architecture: PARSeq
-  checkpoint: parseq default pretrained; hash pending
+  checkpoint: parseq-bb5792a6.pt
+  checkpoint_sha256: bb5792a68e367476abca029cbf8699abc805f3d3dc7e57aae45c8ec4f7b7cd00
+  checkpoint_size_bytes: 95392675
   input_size:
   - 32
   - 128
   charset_profile: 94_full_candidate
-  decoder: greedy primary; optional AR refinement fixed
+  decoder: greedy primary; decode_ar=true; refine_iters=1
   gradient: true
-  status: selected
+  preprocessing: PARSeq SceneTextDataModule resize bicubic, ToTensor, Normalize(0.5,0.5)
+  environment: .venv-ocr / environment/locks.ocr-parseq-py310-cu118.txt
+  status: locked_smoke_teacher
 - id: crnn_train
   role: train_teacher
   repo_id: parseq
   architecture: CRNN reproduced in model hub
-  checkpoint: hash pending
-  input_size: model config
+  checkpoint: /root/.cache/torch/hub/checkpoints/crnn-679d0e31.pt
+  checkpoint_sha256: 679d0e315af22d813c6d5a86287ee5705a9a8dfe37378349359442b8b8953264
+  checkpoint_size_bytes: 33465605
+  input_size:
+  - 32
+  - 128
   charset_profile: align via canonical projection
-  decoder: CTC greedy
+  decoder: CTC greedy/default tokenizer
   gradient: true
-  status: selected
+  preprocessing: PARSeq SceneTextDataModule resize bicubic, ToTensor, Normalize(0.5,0.5)
+  environment: .venv-ocr / environment/locks.ocr-parseq-py310-cu118.txt
+  status: locked_smoke_teacher
 - id: abinet_train
   role: train_teacher
   repo_id: parseq
   architecture: ABINet reproduced in model hub
-  checkpoint: hash pending
-  input_size: model config
+  checkpoint: /root/.cache/torch/hub/checkpoints/abinet-1d1e373e.pt
+  checkpoint_sha256: 1d1e373e6d08bde09500a015436b87ae0f4c9bbd844c8c4fc7a8d9e3628325a7
+  checkpoint_size_bytes: 148362867
+  input_size:
+  - 32
+  - 128
   charset_profile: align via canonical projection
-  decoder: model default fixed
+  decoder: model default fixed, iterative refinement size 3
   gradient: true
-  status: selected_optional
+  preprocessing: PARSeq SceneTextDataModule resize bicubic, ToTensor, Normalize(0.5,0.5)
+  environment: .venv-ocr / environment/locks.ocr-parseq-py310-cu118.txt
+  status: locked_smoke_teacher
 - id: trocr_heldout
   role: heldout_evaluator
   repo_id: trocr
   architecture: TrOCR
-  checkpoint: model ID/revision pending
+  model_id: microsoft/trocr-small-printed
+  resolved_revision: 04e994ab854b0089d4929f48c2b4dbe2ce78a340
+  checkpoint: /root/.cache/huggingface/hub/models--microsoft--trocr-small-printed/snapshots/04e994ab854b0089d4929f48c2b4dbe2ce78a340/model.safetensors
+  checkpoint_sha256: 49350a39968df83e5a1adc90fc0ede02ff247671aed70b842af350fd4a7103f3
+  checkpoint_size_bytes: 245839136
+  config_sha256: 2b6e06edec319984eca99c932d940bfa1f308db3f74d6279440b906c373bf727
+  generation_config_sha256: 41149cdcffec4d657f32dfcddd9b208037f01286c9e07945c724908c58ed0193
+  preprocessor_config_sha256: eec0c686d2e2ea6d5887f87e1c6a34ef5bf1ba5b2ac98b8675e131da646fa1d2
+  sentencepiece_model_sha256: 6f5e2fefcf793761a76a6bfb8ad35489f9c203b25557673284b6d032f41043f4
+  tokenizer_config_sha256: e098c98c6834fbcd3f3e75215e3e8b8868f0fe5bf07aef93d28e4f7196db293c
   input_size: processor config
-  charset_profile: unicode
-  decoder: beam=1 primary; fixed max length
+  charset_profile: unicode primary, latin_alnum_ci_v1 smoke diagnostic
+  decoder: beam=1 primary; max_new_tokens=32
   gradient: false
-  status: candidate
+  environment: .venv-ocr / environment/locks.ocr-parseq-py310-cu118.txt
+  status: locked_heldout_smoke
 - id: paddleocr_heldout
   role: heldout_evaluator
   repo_id: paddleocr
-  architecture: PaddleOCR selected multilingual recognizer/detector
-  checkpoint: bundle/version pending
-  input_size: bundle config
-  charset_profile: language specific
-  decoder: default pinned
+  architecture: PaddleOCR TextRecognition
+  package_versions:
+    paddleocr: 3.7.0
+    paddlepaddle: 3.3.1
+    paddlex: 3.7.2
+  model_name: PP-OCRv6_medium_rec
+  checkpoint: /root/.paddlex/official_models/PP-OCRv6_medium_rec
+  text_detection_model_name: PP-OCRv6_medium_det
+  text_detection_checkpoint: /root/.paddlex/official_models/PP-OCRv6_medium_det
+  text_detection_checkpoint_files:
+    .gitattributes:
+      size_bytes: 1575
+      sha256: a3a43406012ee8c7b9b38dfab1b11610f33e8245cd864a9a9302d042616a859e
+    README.md:
+      size_bytes: 21394
+      sha256: 59f37b08a9a49aa6c1275e7b0363991353582f4dc7676539a5d2b05aab57e744
+    inference.json:
+      size_bytes: 295922
+      sha256: 0f1a7ec35da36173529c7a60238b7f7919e3831929c3f700ad90ad4896adecd5
+    inference.pdiparams:
+      size_bytes: 10852554
+      sha256: 85218d2e3d98f5a21c58b4220627be923a97aee5db3cc71f39536ab31ac53960
+    inference.yml:
+      size_bytes: 233296
+      sha256: 7298d5ead546584af2504d03355f881ac7a7bc0eb1e282d3e159277c1d0af871
+  checkpoint_files:
+    .gitattributes:
+      size_bytes: 1575
+      sha256: a3a43406012ee8c7b9b38dfab1b11610f33e8245cd864a9a9302d042616a859e
+    README.md:
+      size_bytes: 23474
+      sha256: 75ff9c4853ed171f36224127805062f9bcd1cfbbcacae3d577344866df74f6d3
+    inference.json:
+      size_bytes: 221814
+      sha256: 0b2e25e990bd072f1bf77d59d67d508bce6c4bd44af6624e0fb27d6da2cd00e8
+    inference.pdiparams:
+      size_bytes: 76465087
+      sha256: 1b01c79a914587933f615569e75de54f2e638ebb5d3f3b3c1b38c24ede8c7319
+    inference.yml:
+      size_bytes: 150580
+      sha256: 991b700facf5b50a7de193468207d5f4255b538dde0d312ae3b7c7a9b6873129
+  input_size: model inference.yml / default TextRecognition and PaddleOCR pipeline preprocessing
+  charset_profile: model default; evaluate with unicode_strict_v1, latin_alnum_ci_v1 and raw_exact_v1
+  decoder: PaddleOCR TextRecognition default; PaddleOCR detector+recognizer pipeline for E2E held-out evaluation
+  preprocessing: >-
+    PaddleOCR TextRecognition default for recognizer-only word-crop evaluation;
+    detector+recognizer E2E evaluation uses text_det_limit_side_len=64,
+    text_det_limit_type=min, use_doc_orientation_classify=false,
+    use_doc_unwarping=false, use_textline_orientation=false, enable_mkldnn=false.
   gradient: false
-  status: candidate
+  environment: .venv-paddleocr / environment/locks.paddleocr-py310-cpu-2026_06_26.txt
+  status: locked_heldout_smoke_and_e2e_eval
 - id: tesseract_heldout
   role: heldout_evaluator
   repo_id: tesseract
   architecture: Tesseract LSTM
-  checkpoint: tessdata commit/languages pending
+  package_versions:
+    tesseract-ocr: 5.5.0-1build1
+    libtesseract5: 5.5.0-1build1
+    libleptonica6: 1.86.0-1
+    tesseract-ocr-eng: 1:4.1.0-2build1
+  checkpoint: /usr/share/tesseract-ocr/5/tessdata/eng.traineddata
+  checkpoint_sha256: 7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2
   input_size: native
   charset_profile: language pack
-  decoder: PSM/OEM fixed by domain
+  decoder: lang=eng, psm=8, oem=1, default DAWG enabled for word-crop smoke
   gradient: false
-  status: candidate
+  status: locked_heldout_smoke

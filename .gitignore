@@ -17,6 +17,8 @@ experiments/checkpoints/*
 !experiments/checkpoints/.gitkeep
 experiments/results/*
 !experiments/results/.gitkeep
+experiments/features/*
+experiments/manifests/*
 *.bin
 *.pth
 *.pt
@@ -26,3 +28,40 @@ experiments/results/*
 .DS_Store
 .env
 secrets.*
+data/*
+
+# --- Python build / packaging artifacts ---
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+*.whl
+
+# --- Linter / type-checker / test caches ---
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Editor / IDE ---
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- OS junk ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Generated experiment figures (keep dir, ignore contents) ---
+experiments/figures/*
+!experiments/figures/.gitkeep

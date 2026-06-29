@@ -9,6 +9,8 @@ This file is a compact map. The authoritative agent contract is `AGENTS.md`.
 3. `STATUS.md` / `STATE.yaml` — current truth and next gate
 4. `TASKS.md`, `BLOCKERS.md`, `DECISIONS.md`, `NEGATIVE_RESULTS.md` — research operations
 5. `PROMPT_TO_AGENT.md` — minimal instruction to give an AI research agent
+6. `docs/HANDOFF.md` — current 2026-06-25 OSCAR-LIC result, fixed assets and next move
+7. `experiments/manifests/oscar_lic_12h_repro_manifest_2026_06_25.yaml` — 12h artifact/checkpoint/W&B/hash manifest
 
 ## Source-of-truth map
 
@@ -16,10 +18,13 @@ This file is a compact map. The authoritative agent contract is `AGENTS.md`.
 |---|---|
 | research hypothesis and scope | `PROJECT_SPEC.md`, `experiments/hypotheses.yaml` |
 | agent behavior and permissions | `AGENTS.md` |
-| current state | `STATUS.md`, `STATE.yaml` |
+| current state | `STATUS.md`, `STATE.yaml`, `docs/HANDOFF.md` |
+| 12h research summary | `experiments/reports/oscar_lic_12h_research_summary_2026_06_25.md`, `experiments/manifests/oscar_lic_12h_repro_manifest_2026_06_25.yaml` |
+| current promoted result | `docs/HANDOFF.md`, `experiments/reports/eval300_assignment_tensor_reranker_diagnostics_2026_06_25.md` |
+| next model config | `configs/training/assignment_group_noop_window_v0.yaml` |
 | experiment schedule/status | `experiments/EXPERIMENT_MATRIX.csv` |
 | run provenance | `experiments/run_manifest.schema.json`, `scripts/make_experiment_manifest.py` |
-| literature evidence | `literature/paper_registry.csv`, `literature/claims_to_sources.yaml` |
+| literature evidence | `literature/paper_registry.csv`, `literature/claims_to_sources.yaml`, `docs/LIC_RESEARCH_SURVEY_2026_06_25.md` |
 | public-code pins | `literature/repositories.yaml`, `baselines/locks/` |
 | baseline definitions | `baselines/registry.yaml`, `baselines/expected_results.yaml` |
 | checkpoints | `baselines/checkpoint_manifest.yaml` |
@@ -51,4 +56,4 @@ Neural codec and OCR training code is not fabricated before the selected upstrea
 
 ## Current boundary
 
-This snapshot is operationally complete for **starting** the research, but it does not contain copyrighted datasets, external repositories, checkpoints, proprietary credentials or reproduced model results. Their unresolved hashes, licenses and hardware-dependent facts are explicit blockers rather than guessed values.
+This workspace is now operational for continuing the corrected-MLIC++ frozen-base OSCAR-LIC assignment research. It still does not contain publication-approved dataset licenses, proprietary credentials or a full paper RD reproduction. Their unresolved hashes, licenses and hardware-dependent facts are explicit blockers rather than guessed values.

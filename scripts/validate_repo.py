@@ -20,6 +20,8 @@ IGNORED_PARTS = {
     "oscar_lic_package",
     ".venv",
     ".venv-mlic",
+    ".venv-ocr",
+    ".venv-paddleocr",
     "wandb",
 }
 IGNORED_PREFIXES = {
@@ -99,7 +101,11 @@ def main() -> int:
 
     # Reject hidden control characters in text/config/source files. They can corrupt
     # equations, commands, YAML or copy/paste without being visually obvious.
-    binary_suffixes = {".png", ".jpg", ".jpeg", ".webp", ".zip", ".pyc", ".pyo", ".so", ".jsonl"}
+    binary_suffixes = {
+        ".png", ".jpg", ".jpeg", ".webp", ".zip",
+        ".pyc", ".pyo", ".so", ".jsonl",
+        ".npy", ".npz", ".pt", ".pth", ".tar",
+    }
     max_text_scan_bytes = 5 * 1024 * 1024
     for path in ROOT.rglob("*"):
         if path.is_symlink() or not path.is_file() or path.suffix.lower() in binary_suffixes:

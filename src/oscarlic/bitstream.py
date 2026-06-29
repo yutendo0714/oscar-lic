@@ -67,6 +67,36 @@ class ParsedContainer:
         return 8.0 * self.total_bytes / (self.width * self.height)
 
 
+@dataclass(frozen=True)
+class SectionRecoveryIssue:
+    index: int
+    section_type: int
+    codec: int
+    offset: int
+    length: int
+    error: str
+
+
+@dataclass(frozen=True)
+class RecoveredContainer:
+    width: int
+    height: int
+    channels: int
+    bit_depth: int
+    color_space: int
+    model_id: int
+    model_version: int
+    flags: int
+    sections: tuple[ParsedSection, ...]
+    rejected_sections: tuple[SectionRecoveryIssue, ...]
+    total_bytes: int
+    file_crc_ok: bool
+
+    @property
+    def bpp(self) -> float:
+        return 8.0 * self.total_bytes / (self.width * self.height)
+
+
 def _validate_u(value: int, bits: int, name: str) -> None:
     if not isinstance(value, int) or value < 0 or value >= (1 << bits):
         raise BitstreamError(f"{name} must be uint{bits}, got {value!r}")
@@ -203,6 +233,92 @@ def parse_container(data: bytes, *, verify_crc: bool = True, max_pixels: int = 1
         width=width, height=height, channels=channels, bit_depth=bit_depth,
         color_space=color_space, model_id=model_id, model_version=model_version,
         flags=flags, sections=tuple(sections), total_bytes=total_bytes,
+    )
+
+
+def parse_container_recovery(
+    data: bytes,
+    *,
+    required_section_types: tuple[int, ...] = (2,),
+    max_pixels: int = 1_000_000_000,
+) -> RecoveredContainer:
+    """Parse a container for a conservative section-level recovery profile.
+
+    The default parser remains fail-closed: any file CRC mismatch rejects the
+    stream. This helper is intentionally narrower. It verifies the header and
+    section table first, then keeps only sections whose payload CRC matches. If
+    a required payload, such as ``BASE_MAIN`` type 2, is corrupt, recovery
+    fails instead of returning attacker-controlled bytes to a decoder.
+    """
+
+    if len(data) < HEADER_STRUCT.size + FILE_CRC_STRUCT.size:
+        raise BitstreamError("file is shorter than minimum container")
+    fields = HEADER_STRUCT.unpack_from(data, 0)
+    (
+        magic, major, minor, flags, width, height, channels, bit_depth,
+        color_space, reserved0, model_id, model_version, section_count,
+        header_bytes, total_bytes, header_crc,
+    ) = fields
+    if magic != MAGIC:
+        raise BitstreamError("bad magic")
+    if major != MAJOR:
+        raise BitstreamError(f"unsupported major version {major}")
+    if minor > MINOR:
+        raise BitstreamError(f"unsupported newer minor version {minor}")
+    if reserved0 != 0:
+        raise BitstreamError("reserved header byte is nonzero")
+    if width == 0 or height == 0 or width * height > max_pixels:
+        raise BitstreamError("invalid or excessive image dimensions")
+    expected_header_bytes = HEADER_STRUCT.size + section_count * SECTION_STRUCT.size
+    if header_bytes != expected_header_bytes:
+        raise BitstreamError("header_bytes does not match section count")
+    if total_bytes != len(data):
+        raise BitstreamError("declared total_bytes does not match file length")
+    if header_bytes + FILE_CRC_STRUCT.size > len(data):
+        raise BitstreamError("section table exceeds file")
+
+    header_zero = HEADER_STRUCT.pack(
+        magic, major, minor, flags, width, height, channels, bit_depth,
+        color_space, reserved0, model_id, model_version, section_count,
+        header_bytes, total_bytes, 0,
+    )
+    table = data[HEADER_STRUCT.size:header_bytes]
+    if (zlib.crc32(header_zero + table) & 0xFFFFFFFF) != header_crc:
+        raise BitstreamError("header CRC mismatch")
+    expected_file_crc = FILE_CRC_STRUCT.unpack_from(data, len(data) - 4)[0]
+    file_crc_ok = (zlib.crc32(data[:-4]) & 0xFFFFFFFF) == expected_file_crc
+
+    required = set(required_section_types)
+    sections: list[ParsedSection] = []
+    rejected: list[SectionRecoveryIssue] = []
+    occupied: list[tuple[int, int]] = []
+    for index in range(section_count):
+        start = HEADER_STRUCT.size + index * SECTION_STRUCT.size
+        values = SECTION_STRUCT.unpack_from(data, start)
+        stype, codec, sflags, offset, length, unprotected, crc, dependency = values
+        end = offset + length
+        if offset < header_bytes or end > len(data) - FILE_CRC_STRUCT.size or end < offset:
+            raise BitstreamError(f"section {index} is out of range")
+        if unprotected > length:
+            raise BitstreamError(f"section {index} has invalid unprotected length")
+        for other_start, other_end in occupied:
+            if not (end <= other_start or offset >= other_end):
+                raise BitstreamError(f"section {index} overlaps another section")
+        occupied.append((offset, end))
+        payload = data[offset:end]
+        if (zlib.crc32(payload) & 0xFFFFFFFF) != crc:
+            error = "payload CRC mismatch"
+            if stype in required:
+                raise BitstreamError(f"required section {index} payload CRC mismatch")
+            rejected.append(SectionRecoveryIssue(index, stype, codec, offset, length, error))
+            continue
+        sections.append(ParsedSection(stype, codec, sflags, offset, length, unprotected, crc, dependency, payload))
+
+    return RecoveredContainer(
+        width=width, height=height, channels=channels, bit_depth=bit_depth,
+        color_space=color_space, model_id=model_id, model_version=model_version,
+        flags=flags, sections=tuple(sections), rejected_sections=tuple(rejected),
+        total_bytes=total_bytes, file_crc_ok=file_crc_ok,
     )
 
 

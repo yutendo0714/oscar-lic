@@ -12,6 +12,8 @@
 - [x] Clone P0 external repositories at registered commits.
 - [ ] Review cloned external repository code/licenses before executing third-party experiments.
 - [x] Download one corrected MLIC++ checkpoint; record source, size and SHA256.
+- [x] Audit MLIC++ corrected multi-rate checkpoint availability; record that official `origin/main` currently lists only corrected lambda `0.0250` and old-class-only multi-rate MSE weights (`22kw7x8j`).
+- [x] Download, SHA256-pin and actual compress/decompress smoke-test DCAE lambda `0.013` MSE checkpoint (`qxpm6ub6`).
 - [x] Create and hash a deterministic project-owned five-image smoke set (`data/toy`).
 - [x] Build bootstrap and MLIC++ reproduction venvs.
 - [x] Verify CUDA visibility in MLIC++ reproduction venv.
@@ -21,28 +23,303 @@
 
 ## P1 — Baseline foundation
 
-- [ ] Reproduce CompressAI hyperprior actual-bitstream smoke (`B001`).
-- [ ] Reproduce MLIC++ one operating point (`B010`) on a frozen validation subset.
-- [ ] Freeze internal regression values and tolerances in `baselines/expected_results.yaml`.
-- [ ] Lock PARSeq teacher checkpoint and preprocessing.
-- [ ] Lock at least one held-out OCR evaluator and detector mode.
+- [x] Add current LIC/generative/task-aware/robustness survey notes for OSCAR-LIC positioning.
+- [x] Refresh the 2025-2026 survey with efficient-prior, one-step diffusion/generative, task-aware and bitstream-security papers, and record survey/map SHAs.
+- [x] Reproduce CompressAI hyperprior actual-bitstream smoke (`B001`).
+- [x] Reproduce MLIC++ one operating point (`B010`) on a frozen validation subset.
+- [x] Reproduce DCAE lambda `0.013` actual-bitstream smoke on the frozen CLIC-small validation subset as a P1 secondary baseline (`9u35goai`).
+- [x] Freeze internal regression values and tolerances in `baselines/expected_results.yaml`.
+- [x] Lock PARSeq teacher checkpoint and preprocessing.
+- [x] Lock CRNN and ABINet STRHub train-teacher checkpoints with SHA256 and smoke OCR results.
+- [x] Lock at least one held-out OCR evaluator and detector mode.
+- [x] Lock a second neural held-out OCR smoke evaluator.
+- [x] Measure original word-crop OCR upper bound for the first teacher smoke split.
+- [x] Run a first CompressAI low-rate actual-bitstream text-crop OCR sweep.
+- [x] Run a local TextOCR/PaddleOCR full-image detector+recognizer smoke to verify O002 logging, matching and manifest plumbing (`i01p5iel`); keep O002 open until license and official/pinned polygon metric are frozen.
 - [ ] Measure original-image OCR upper bound and detector failure rate (`O002`).
 - [ ] Implement single-teacher OCR-loss baseline (`O010`).
 - [ ] Implement multi-teacher no-utility baseline (`O020`).
 
 ## P2 — Center hypothesis
 
-- [ ] Integrate exact candidate transmission unit with verified MLIC++ feature shapes.
-- [ ] Implement greedy counterfactual oracle on small crops (`U001`).
-- [ ] Benchmark oracle label cost on 100 crops and update B05.
+- [x] Integrate exact counted candidate gate/enhancement sections with verified MLIC++ feature shapes.
+- [x] Verify frozen-base MLIC++ decode through an exact-byte OSCAR container.
+- [x] Add tested MLIC++ latent candidate layout and gate-byte accounting utilities.
+- [x] Add decoded-`y_hat` access adapter matching upstream MLIC++ decompression.
+- [x] Implement greedy counterfactual oracle on small crops (`U001`) using a quality-ladder smoke.
+- [x] Add first packet-overhead simulation to the multi-teacher quality oracle.
+- [ ] Implement greedy counterfactual oracle on true MLIC++ latent/enhancement candidate units.
+- [x] Add original-recognizable strata to OCR crop evaluation.
+- [x] Add low-confidence strata to OCR crop evaluation.
+- [x] Benchmark true single-candidate OCR label cost on 100 crops and update B05.
+- [x] Benchmark the quality-ladder oracle and controls on a deterministic 100-crop split.
 - [ ] Compare oracle against uniform-text, detector-confidence, uncertainty and random controls.
-- [ ] Estimate interaction error through sampled subsets / approximate Shapley analysis.
-- [ ] Make and record the G4 Go/No-Go decision.
+- [x] Compare the first quality-ladder oracle against random/confidence/uniform-cost controls.
+- [x] Add source-stratified analysis for eval100 oracle q3 vs uniform q3.
+- [x] Generate first true latent single-candidate OCR utility labels on Text24.
+- [x] Generate true latent single-candidate OCR utility labels on Eval100.
+- [x] Build first supervised candidate utility table from true latent candidate labels.
+- [x] Augment candidate utility table with MLIC++ latent/residual content features.
+- [x] Train a tiny candidate-utility selector baseline and record the negative result.
+- [x] Evaluate one-candidate selector policies with actual transmitted bpp on Eval100.
+- [x] Sweep candidate selector image-group splits on Eval100.
+- [x] Train and evaluate a first within-image ranker baseline on Eval100.
+- [x] Add approximate image/base-reconstruction patch features to Eval100 candidate tables.
+- [x] Evaluate image-feature ranker and record the modest gain / overfit limit.
+- [x] Evaluate wide latent-vector ranker and record the negative result.
+- [x] Train a tiny shared patch-CNN ranker and record the AUC/policy gap.
+- [x] Compare binary, benefit and benefit-per-bpp patch-ranker targets.
+- [x] Run Eval100 compact K16 codebook payload diagnostic and OCR evaluation.
+- [x] Run Eval100 oracle-selected K16 compact codebook diagnostic and OCR evaluation.
+- [x] Run Eval100 oracle-selected K64/26-center compact codebook upper diagnostic and OCR evaluation.
+- [x] Generate true latent single-candidate OCR utility labels on Eval300.
+- [x] Build Eval300 supervised multi-teacher candidate utility table and image-patch feature table.
+- [x] Sweep Eval300 linear selector, image-feature MLP ranker and patch-CNN ranker with actual transmitted bpp policies.
+- [x] Add and evaluate an Eval300 image-level listwise patch gate with an explicit no-op class.
+- [x] Run first generic harm-logit-penalty listwise diagnostic and record the negative result.
+- [x] Add and evaluate a first evaluator-specific protected target (`tesseract_parseq_safe`) for the listwise gate.
+- [x] Add and evaluate train-split constrained thresholding for the protected listwise gate.
+- [x] Export a held-out learned listwise selection and run it through explicit counted codebook `.oscr` streams with OCR evaluation.
+- [x] Run train-codebook/eval-selection K16/K64 controls to test whether residual-MSE codebooks generalize beyond selected validation vectors.
+- [x] Implement and evaluate a first utility-weighted K64 train-codebook diagnostic.
+- [x] Sweep utility-weight alpha on the unstable seed2 split and expand the best weak-weight control to three seeds.
+- [x] Evaluate hard non-harm train-candidate filtering as a codebook rare-harm control.
+- [x] Implement and evaluate first center-utility-biased code-index assignment diagnostic.
+- [x] Generate and evaluate a seed2 top-k code-index assignment oracle to quantify assignment headroom.
+- [x] Expand top-k assignment labels to train225 top-75 selections and evaluate a first train225->val75 patch-difference assignment ranker.
+- [x] Add latent residual/codebook relation features and conservative no-op policies for the assignment ranker; record the negative/unstable result.
+- [x] Evaluate group oracle-choice assignment target so nearest/no-op is learned as the correct code for no-headroom groups.
+- [x] Add explicit code-index assignment mode for counted `.oscr` codebook streams.
+- [x] Verify learned oracle-choice assignment with real compress/decompress and row-wise OCR comparison.
+- [x] Compare model-seed ensemble and combined-seed assignment rankers; record that neither improves over the simple per-seed oracle-choice baseline.
+- [x] Implement group/listwise assignment loss and train-tuned top-changed calibration; record current negative result.
+- [x] Add source/text-length/OCR-difficulty strata analysis for assignment oracle headroom.
+- [x] Test diagnostic metadata/difficulty assignment features; record current negative result.
+- [x] Add local diff-crop assignment image mode and record current negative result.
+- [x] Test local diff-crop plus latent-vector assignment features; record current negative result.
+- [x] Test tabular-only codegeom oracle-choice assignment as a simplification diagnostic.
+- [x] Test small strongly-regularized tabular codegeom assignment head; record current negative result.
+- [x] Add group-level assignment policy error analysis for missed-oracle, false-change and wrong-change cases.
+- [x] Evaluate a diagnostic OCR-distance difficulty gate over assignment scores.
+- [x] Train a first deployable-ish group-level no-op gate over fixed assignment scores.
+- [x] Test codegeom-only group gate trained on OCR-distance difficulty proxy; record current negative result.
+- [x] Promote the fixed-threshold group-level assignment gate through real counted `.oscr` compress/decompress and row-wise OCR comparison.
+- [x] Sweep group-gate thresholds and verify the conservative threshold-0.8 policy with seed0 actual `.oscr` plus OCR smoke.
+- [x] Test latent-vector tabular features in the group-level assignment gate; record the negative result.
+- [x] Test assignment-score margin no-op gates; record that score confidence alone is insufficient.
+- [x] Test a linear-only group gate as a simplicity control; record that it reduces overfit but does not beat the promoted MLP group gate.
+- [x] Test pooled seed0/1/2 group-gate calibration; record that higher AUC does not beat the split-specific promoted policy.
+- [x] Add lightweight assignment image-diff features and verify the pooled image-diff group gate with actual `.oscr` streams plus PARSeq/Tesseract comparisons.
+- [x] Compare explicit policy errors for the old group gate versus the pooled image-diff gate; record that image-diff mainly wins by reducing false/wrong changes.
+- [x] Promote a second pooled image-diff gate seed/threshold through actual `.oscr` as a robustness check; record exact OCR tie with the preferred lower-change policy.
+- [x] Add assignment score-coverage analysis to separate scorer-ranking misses from group-gate no-op misses.
+- [x] Test tabular image-diff features as direct assignment scorer inputs; record high-AUC but low-policy-gain negative result.
+- [x] Add score top-M oracle upper-control to estimate headroom for a top-4 shortlist plus reranker design.
+- [x] Test a first top-4 shortlist diff-crop/image-feature reranker; record high-AUC but zero rank1 recovery negative result.
+- [x] Add feature-family audit for assignment scorer/top4 reranker failures and record the local latent/code-effect reranker design.
+- [x] Export tensor artifacts for a nearest-plus-top4 local code-effect assignment reranker and run a first compact tensor-backed smoke.
+- [x] Test full residual-coordinate tabular top4 assignment features; record the high-AUC but harmful-policy negative result.
+- [x] Test reusing the image-diff group gate on tensor code-effect reranker scores; record the negative calibration result.
+- [x] Sweep nearest-vs-candidate margin gates on tensor code-effect reranker scores; record that it can tie aggregate `-8` Tesseract edits but is less precise than the promoted image-diff gate.
+- [x] Test direct Tesseract non-improve/harm logit penalties for the tensor code-effect reranker; record the negative policy-level result.
+- [x] Test group-change margin supervision for the tensor code-effect reranker; record the negative policy-level result.
+- [x] Evaluate residual-relative zero-code assignment thresholds as a no-op negative control.
+- [x] Run Eval300 oracle-selected K16/K64 compact codebook diagnostics and OCR evaluation.
+- [x] Audit whether current assignment/codebook promotion tables are eligible for sampled interaction/Shapley diagnostics; record that they are one-distinct-candidate-per-source and not yet eligible (`nwso1h4q`).
+- [x] Estimate first sampled interaction error with a 5-image raw residual multi-candidate `.oscr` smoke; record strong Tesseract non-additivity (`fhk5uy8l`).
+- [x] Re-analyze Eval300 interaction smoke20 per sample and record that independent additive top-k utility is invalid for multi-candidate allocation (`828bl6tt`).
+- [x] Run a counted 3-candidate all-subset raw-residual smoke10 and record that best one-candidate policies beat pair/triple policies for OCR despite higher PSNR at larger subsets (`sem19sup`).
+- [x] Scale the counted 3-candidate all-subset raw-residual diagnostic to smoke40 and record that subset-oracle decisions are still dominated by one-candidate stops (`90cff84m`).
+- [x] Convert the smoke40 all-subset outcomes into conditional add-one-candidate utility edges and record the base-to-single versus single-to-pair sign flip (`bzrbijit`).
+- [x] Export a joined 480-row conditional edge JSONL table with Tesseract/PARSeq deltas and stop/continue labels for future diagnostic training (`58a4r0pk`).
+- [x] Evaluate transition-aware stop/continue baselines on the N073 edge table and freeze `first_only` as a strong diagnostic floor (`iidwqg03`).
+- [x] Test cross-fit feature-based conditional allocators on the N073 edge table; record that transition/candidate/rate/PSNR/source features do not beat `first_only`, and even an OCR-state upper-control fails the greedy one-candidate policy floor (`s4jy1ggg`).
+- [x] Add paired bootstrap confidence intervals for eval100 oracle-vs-uniform q3.
+- [x] Make and record the G4 Go/No-Go decision.
 
 ## P3 — Proposed model, only after G4
 
-- [ ] Train lightweight utility predictor.
-- [ ] Implement entropy-coded gate/index stream.
+- [ ] Train lightweight utility-aware gate/head with compact/shared local latent-CNN patch encoders and stronger within-image ranking.
+- [x] Implement counted gate/index stream payload syntax.
+- [x] Replace dummy `TEXT_MAIN` bytes with a first counted raw latent residual enhancement stub.
+- [x] Add a compact decoder-known latent codebook diagnostic payload.
+- [ ] Replace raw int8 latent residual tensors with an OCR-utility-trained compact learned/codebook frozen-base enhancement payload.
+- [ ] Train utility-aware compact codebook/symbol assignments that preserve the Eval300 K64 PARSeq gain while improving Tesseract toward the raw oracle.
+- [ ] Train a group/listwise no-op-aware assignment head that recovers more of the top-8 oracle headroom than the current rowwise oracle-choice baseline.
+- [x] Export tensor artifacts for a local latent/code-effect assignment reranker over nearest plus top4 candidates.
+- [x] Export local frozen-base latent context vectors (`y_hat`, `g_a(x)`, residual) for the tensor-backed assignment reranker and record that raw concatenation/simple branch use is a negative policy result.
+- [x] Test a minimal latent-CNN branch over the exported latent context and record the negative policy result.
+- [x] Add a consolidated tensor-reranker diagnostic report, machine-readable summary and W&B run (`1s91vwj5`) for the promotion decision.
+- [x] Add structured local latent-window export support and verify/log a val75 MLIC++ compress/decompress smoke artifact (`9v9nhmza`).
+- [x] Export the full train+val latent-window artifact and run a first minimal window-CNN reranker smoke (`s325nhay`), recording the negative policy result.
+- [x] Add true local frozen-base latent-token windows to the tensor-backed assignment reranker.
+- [x] Run first group/no-op assignment follow-ups over the structured-window artifact, including strong-improvement group labels, Tesseract reward-softmax row labels and a 10-seed v0 sweep; record all as negative controls (`9z4trvnq`).
+- [x] Add split-key support to the group/no-op trainer and run a leave-real-seed-out code-only diagnostic; record that split calibration alone does not rescue the current row scorer (`qwbu6asw`).
+- [x] Test scikit-learn tree rankers over summarized code/latent/window features and record that high row AUC/AP still fails policy-level OCR gain (`nay55x83`).
+- [x] Test candidate-only BCE row supervision for group/no-op assignment and record that non-nearest candidate reweighting still fails policy precision (`o882h3gb`).
+- [x] Add cross-fitted or held-out calibration for the group-level assignment gate before treating fixed threshold 0.5 as final (`z2cse6yf`).
+- [x] Add train-tuned group-gate policy export support and smoke it on one real-seed cross-fit split (`z73ruha2`).
+- [x] Filter real-seed cross-fit group-gate exports to clean Eval300 val75-compatible rows before actual `.oscr`; record that train-tuned/fixed policies do not beat the promoted table delta (`36wwlrx8`).
+- [x] Add regression tests for clean policy filtering and interaction-smoke policy generation (`tests/test_policy_tools.py`).
+- [x] Test fixed promoted image-diff gate plus alternate code-effect/group-noop reranker hybrid; record that it ties at best and the fixed change set is the bottleneck (`qd8ol5zr`).
+- [x] Test score-consensus selectors over current reranker seeds; record that score agreement does not safely expand the change set (`rm9fssf0`).
+- [x] Add stroke/projection scalar image features and test the pooled group gate; record that it weakens policy precision (`t4m1mhub`).
+- [x] Extract PARSeq teacher confidence/edit-distance features for assignment candidates and test the pooled group gate; record tie-but-worse precision (`csp3watg`, `fcd0lfon`).
+- [x] Distill PARSeq teacher edit/norm-edit/confidence targets into the deployable group gate while excluding direct teacher features; record that target swapping collapses to no-op or unsafe train-tuned policies (`ibzb6tu4`).
+- [x] Train a scalar candidate-local PARSeq teacher row scorer using only deployable codebook/image-diff features; record that row AP does not transfer to safe policy gain (`ifaqyaeh`).
+- [x] Add PARSeq teacher targets to the structured latent-window code-effect artifact and test teacher-target window rerankers; record that confidence-style teacher targets worsen policy selection (`c4mctgjh`).
+- [x] Export a nearest-plus-top8 structured latent-window artifact with full oracle recall and test the first actual-label top8 window reranker; record high row AUC but insufficient policy precision (`vyfi6rhr`).
+- [x] Test the explicit group/no-op window head on the top8 artifact; record train overfit and clean-val failure (`vb3tnf4r`).
+- [x] Add top8 policy error analysis comparing row-only and explicit group/no-op failures; record that both miss the same hard positives and produce many rank-0/no-headroom false changes (`klj2113f`).
+- [x] Add targeted rank0/no-headroom and hard-positive tail-margin losses to the group/no-op trainer; record that they preserve row AUC/AP but still fail policy precision (`d7y7j8dn`).
+- [x] Add source-index modulo split support and run a source-disjoint top8 diagnostic; record that the current group/no-op model becomes harmful despite respectable row AP (`x1to33x8`).
+- [x] Create an Eval300-disjoint Eval600 crop split, generate MLIC++ single-candidate latent residual reconstructions, and run PARSeq/Tesseract OCR over all 9600 candidates (`3lot3tud`, `vd6nv38v`).
+- [x] Build the Eval600 PARSeq/Tesseract utility table and run the first `tesseract_parseq_safe` patch-listwise gate diagnostic; record that it preserves PARSeq but recovers little oracle headroom (`x4brl6zw`).
+- [x] Add fixed external-split support for one-candidate gates and run Eval600->Eval300 transfer; record that the existing patch gate preserves PARSeq but still captures little oracle headroom (`lykbfyhg`).
+- [x] Build an Eval600-oracle-safe top8 assignment transfer artifact, train current group/no-op latent-window heads against Eval300 seed1 clean-val, and record that row signal transfers but policy precision does not (`3vj4lavk`, `sulkrjq6`, `1m472jil`, `ndreov1l`).
+- [x] Add Eval600 hard no-headroom negative groups to the top8 assignment substrate and verify that they reduce Eval300 false changes but do not make the current head promotable (`b4mr5j5a`, `64vj947g`, `x94exiuz`, `3vzcvcb3`, `5mtvr2r1`).
+- [x] Train a source/difficulty-matched pairwise assignment objective over oracle-safe positives plus hard no-headroom negatives; record that it improves shortlist evidence but not deployable policy precision (`nfy2esqe`, `4yx9140t`, `ebb7tvge`, `semgweeh`).
+- [x] Test an explicit top-k/no-op policy-budget selector over the hard-negative-balanced Eval600 score files; record that post-hoc budget/threshold calibration does not transfer safely to Eval300 (`l52j5hun`, `guj1r9l7`).
+- [x] Audit Eval600->Eval300 assignment score calibration by source/difficulty; record that Eval300 positive scores collapse toward the no-change distribution despite perfect Eval600 separation (`c5jzanwn`).
+- [x] Test a tiny IAM-only source-balanced supplement on the hard-negative top8 assignment substrate; record that 20 groups are insufficient to fix Eval300 calibration (`m9hf0uo6`, `8eej9xt7`, `iikeyxg2`).
+- [x] Test a larger source-balanced 210-group no-safe calibration append; record that more same-kind labels still do not rescue the current single-score head (`cucaosnh`, `lkvvfxzo`, `5q05gb1z`).
+- [x] Test a score-only top-k verifier over the N031 score files; record that score/rank/vote/group-probability features are externally anti-calibrated and should not be retried as the second stage (`blrnzrcc`).
+- [x] Test an external Eval600-trained image-diff group gate over the N031 scorer; record that image-diff helps only if it improves candidate-level scorer/ranking, not merely group accept/reject (`f2omvl4p`).
+- [x] Test external diff-crop candidate-local image/code-effect evidence as the scorer itself; record that high row AUC/AP still harms Eval300 policy and should not be seed/capacity swept (`xem245nk`).
+- [x] Test safe-improve target swapping on the external diff-crop candidate scorer; record that rare safe-improvement labels do not transfer and make the policy more harmful (`k5xbgn7o`).
+- [x] Audit diff-crop scorer ranks for oracle/safe candidates; record that useful candidates remain in top-4 but top-1 selection is miscalibrated (`ccm9qx83`).
+- [ ] Replace the current single-score assignment decision with a policy-level safety objective or verifier over richer non-score candidate-local evidence before another assignment promotion attempt. Score-only top-k verifiers are rejected by N032; image-diff only as a group gate is rejected by N033; diff-crop candidate scoring alone is rejected by N034; safe-improve target swapping is rejected by N035.
+- [x] Train a first top-4 shortlist policy selector with explicit no-op/abstention and harmful-candidate suppression; record that shortlist oracle is strong but learned selection is unsafe (`33xqtxjk`).
+- [x] Test a strict high-precision budget/threshold rule over N034/N035 diff-crop score files; record that in-sample Eval600 score calibration does not transfer (`qay9jfvo`).
+- [x] Verify the score-seed-2 top-4 shortlist oracle through actual counted `.oscr` compress/decompress and row-wise OCR; record it as a non-deployable upper-bound substrate that improves Tesseract beyond the current best at identical bpp (`ftpgkenc`).
+- [x] Run same-Eval300 leave-real-seed-out calibration for the score-seed-2 top-4 selector and record that shallow score-feature selection still fails (`vtyajbnv`).
+- [x] Add a small local diff-crop patch-CNN top-4 selector under the same leave-real-seed-out calibration and record that candidate-local patches are still unsafe (`ly4wl7xd`).
+- [x] Generate source-modulo out-of-fold first-stage scores for Eval600, merge them with external Eval300 scores, and test the top-4 selector; record that OOF score calibration alone remains unsafe (`mew0ag4h`, `14y9ta7l`, `w74f4anb`).
+- [x] Replace top-4 oracle-choice classification with a first OCR reward-policy loss over source-OOF scores; record that loss-only policy optimization still worsens Eval300 (`s7wqdw5n`).
+- [x] Test a strict source-OOF score budget/threshold selector; record that it is safe but collapses to no-op on Eval300 (`p4nohfm9`).
+- [x] Test source-OOF score features plus a small external diff-crop patch selector; record that scratch patch evidence remains unsafe (`hdxd4tkj`).
+- [x] Test source-OOF top-4 selection with fixed AlexNet diff-crop patch embeddings; record that generic pretrained visual features reduce aggressiveness but recover zero oracle changes (`idwilglc`).
+- [x] Fuse source-OOF scores, scalar image/code features, fixed AlexNet patch embeddings and latent/codebook summaries in one top-4 selector; record N046 as invalid because the feature cache contained one all-NaN column (`chn5v4td`, `mkjhaz2x`).
+- [x] Add hard-positive weighting and oracle-vs-nearest margin objectives to the dirty multi-evidence summary selector; record N047 as invalid because it consumed the same NaN feature cache (`sybz8479`, `n8b6dxc9`).
+- [x] Sanitize the multi-evidence feature cache and rerun standard/balanced selectors; record the clean valid negative result that summary MLPs move but select mostly false/wrong changes (`x0dbl88o`, `pr68eztu`).
+- [x] Audit source-OOF candidate scoring on the top-4 shortlist and test non-nearest-only diff-crop rankers; record that top-4 coverage is strong but candidate scoring/calibration still fails Eval600-to-Eval300 transfer (`rym86loh`).
+- [x] Audit source/length/base-OCR-difficulty strata for the source-OOF top-4 failure; record that IAM and mid-difficulty groups are high-yield but also high-false-pressure, so simple strata filters are not a rescue rule (`ox7xrbee`).
+- [x] Extract PARSeq train-teacher encoder-memory features for the source-OOF top-4 substrate and test CE/balanced selectors; record that direct teacher-feature concatenation remains non-deployable and does not transfer safely (`mw4lraiv`).
+- [x] Extract deployable text-topology features for the source-OOF top-4 substrate and test CE/balanced selectors; record that topology features carry weak signal but remain false/wrong-change dominated (`zfmoo46f`, `ozo0gg97`).
+- [x] Lock CRNN/ABINet train teachers and test direct train-teacher confidence/distance-confidence transfer on the hard-negative-balanced top8 substrate; record that confidence policies are unsafe and sparse edit improvements are not viable primary labels (`ccwg6z4j`).
+- [x] Add per-sample CRNN/ABINet teacher-loss extraction and test direct loss-decrease policies; record that loss is dense but unsafe and hard loss-no-worse filtering discards most Eval300 Tesseract headroom (`e5bqv22c`, `9pk49iuy`, `s4xivdqz`).
+- [x] Build source-image OCR pseudo-label tables for CRNN/ABINet and test deployable-style pseudo-loss selection; record that self-consistency is still false-change dominated and no-worse upper bound remains below current actual-bitstream baseline (`4cx9p4rf`, `l24e394t`, `vcrn793q`, `bu151m61`, `smxrubsn`).
+- [x] Test fixed CRNN/ABINet/PARSeq teacher-loss/confidence vetoes on the current best's changed OCR pairs; record that they either veto nothing or remove useful improvements with the bad change (`d2hzt8qt`, `ui1wrmt9`, `vxspk149`, `0jzdckyo`).
+- [x] Audit the actual current-best and top-4 shortlist-oracle policies against the top8 structured latent/code-effect artifact; record that the current false change is not isolated by simple rank/residual-fidelity statistics and that many missed useful candidates sit at ranks `6/7`, so N060 is design evidence rather than a deployable threshold rule (`b10dhzau`).
+- [x] Build an OCR/string-aware actual assignment failure bank for current-best versus top-4 shortlist oracle policies; freeze the next selector target classes as 11 recoverable shortlist changes, 1 bad current change to reject, 57 no-op groups and 4 current good changes (`wvu1frgy`).
+- [x] Update the actual assignment failure bank against the top8 shortlist oracle; freeze the current top8 selector inventory as 13 recoverable top8 changes, 1 bad current change to reject, 57 no-op groups and 4 current good changes (`hjx7xogk`).
+- [x] Enrich the actual assignment failure bank with deployable codegeom/image-diff features, five existing score families and priority-case contact sheets; record that recoverable shortlist targets are never ranked first while the single bad current change is ranked first by every score family, so threshold-sweeping existing scores is closed (`wqnd7ezy`).
+- [x] Rerun the deployable feature/score audit on the top8 failure bank; record that existing score families still rank `0/13` recover targets first and rank the single current bad change first under every score family (`vtufh0fw`).
+- [x] Add a glyph-code differential feature diagnostic over all top8 candidates; record that nearest-ink adjacency/largest-diff-component features improve recover rank<=4 to `9-10/13` but require a separate no-op/abstention verifier (`ahiigliv`).
+- [x] Train/audit a compact top8 glyphcode verifier with explicit no-op suppression; record that the direct logistic/margin version collapses toward no-op and does not beat the promoted actual-bitstream baseline (`2hkuk3tl`).
+- [x] Audit the glyphcode verifier score space; record that `is_nearest` dominates the linear verifier and recover oracle codes are `0/13` score-rank 1, so a single nearest-biased scalar score is the wrong decision structure (`c1hjhcsa`).
+- [x] Test a non-nearest-only glyphcode ranker to isolate candidate scoring from no-op acceptance; record that glyphcode scalar features still recover only `1/13` top8 oracle codes at score-rank 1 (`ra6wajli`).
+- [x] Freeze the post-N082/N087 two-stage verifier design constraints and stop rules in `docs/TOP8_ASSIGNMENT_VERIFIER_PLAN_2026_06_26.md`.
+- [x] Export the first top8 candidate-local evidence cache with source/nearest/candidate/diff patch channels plus codebook/glyph scalar features (`fv7v3u19`).
+- [x] Train the first tiny patch/code-effect non-nearest ranker over the evidence cache; record that it does not beat the glyphcode-only candidate-ranking floor and should not feed a no-op acceptor (`dn4pvr3o`).
+- [x] Audit existing imgstroke/projection features on the same actual failure bank; record that some scalars separate the one reject from recover/good target candidates but are only auxiliary evidence, not a standalone veto or topology-only selector retry (`1u6asvhj`).
+- [x] Audit top8 feature-neighborhood/KNN support across code geometry, image-diff, latent summaries and PARSeq-teacher summaries; record that top4 support remains but safe top1/policy selection is far below promotion quality (`lapwwjuu`).
+- [x] Probe a direct policy-margin/no-headroom suppression objective over the top8 latent-window artifact and record that it lowers aggressiveness but does not transfer useful high-precision changes on val_seed1 (`vg421itb`).
+- [x] Audit actual-policy consensus between the two pooled image-diff gate exports; record that same-change consensus ties the current best and union adds false/wrong neutral changes rather than recovering shortlist headroom (`nd3gr4iq`).
+- [x] Verify the score-seed-2 top8 shortlist oracle through actual counted `.oscr` compress/decompress and row-wise OCR; record it as the stronger non-deployable upper bound (`-24` unicode Tesseract edits versus nearest, `-4` versus top4, PARSeq unchanged) at identical actual bpp (`lky54qz5`).
+- [x] Add paired bootstrap confidence intervals for the top8 actual `.oscr` oracle across Tesseract, PARSeq, TrOCR, PaddleOCR recognizer-only and PaddleOCR E2E; record that top8 is statistically supported versus nearest/current at unchanged actual bpp, while top4->top8 CI touches zero (`7ubvieta`).
+- [ ] Replace the top-8 shortlist selector/first-stage generator with materially richer structured candidate-local code-effect representation or an OCR/text-aware verifier that sees more than scalar score/rank/patch-CNN/AlexNet/summary/non-nearest-diff-crop/source-length-difficulty strata/direct PARSeq encoder/topology-only features/feature-neighborhood KNN/current-gate AND-OR consensus/existing score-family thresholds/tiny top8 evidence-cache BCE/listwise rankers/fixed teacher string-consensus/wide scalar tabular families/current latent-code-token top-k-prior verifier before any counted `.oscr` promotion. Do not retry shallow selectors, score-only budget rules, small reward-loss sweeps, the scratch patch-CNN family, generic AlexNet-capacity sweeps, summary-feature fusion, simple hard-positive reweighting, non-nearest-only score-threshold variants, simple source/length/base-OCR filters, direct PARSeq encoder-feature MLPs, topology-only shallow selectors, CRNN/ABINet confidence argmax, CRNN/ABINet teacher-loss argmax/no-worse filtering, fixed teacher-loss veto overlays on current best changes, source-pseudo-label loss argmax/no-worse filtering, fixed PARSeq/CRNN/ABINet string-consensus rules, KNN/nearest-neighbor policies over the same scalar/summary features, simple policy-margin/no-headroom objective retuning, N060-derived held-out-Tesseract rank/residual-error threshold rules, AND/OR/consensus rules over the current pooled image-diff gate family, tiny N088-cache BCE/listwise ranker variants, source-balanced loss-only reruns, the N099 latent/code-token verifier as a seed/capacity sweep, source-OOF thresholds/hard-negative scalar weights over the same N099 verifier, larger same-kind source-balanced calibration over the same top-k-prior verifier, or threshold sweeps over the current code-only/diff-crop/latent-window/latent-context/tabular-image-diff score families after N039/N041/N042/N043/N044/N045/N048/N049/N050/N051/N053/N054/N055/N056/N057/N059/N060/N064/N067/N068/N077/N079/N089/N090/N095/N097/N099/N100/N101.
+- [ ] Design a train-teacher objective or OCR/text verifier that can use PARSeq/CRNN/ABINet without using held-out OCR labels, confidence features, teacher-loss argmax, source-pseudo-label loss argmax, hard loss-no-worse filtering, sparse edit-gain argmax, or fixed teacher string-consensus rules as the main selector signal.
+- [ ] Add stronger OCR-family-specific no-worse constraints or weighted multi-objective losses to the listwise gate.
+- [ ] Train a richer candidate-local code-effect predictor using actual safe assignment labels as the main target and PARSeq teacher signals only as auxiliary regularization.
+- [ ] Combine glyph-code evidence with richer candidate-local code-effect/OCR-text evidence in a verifier that has a different decision structure than N085; do not retry direct glyphcode-only logistic/margin calibration.
+- [ ] Design a two-stage top8 assignment decision with materially richer candidate evidence than glyphcode scalars; N086 shows nearest bias in a single score, and N087 shows glyphcode-only non-nearest scoring is still too weak.
+- [x] Improve candidate evidence/modeling beyond the first tiny BCE cache ranker with structured pair/listwise ranking; record that N090 still fails to recover rank1 and should not feed a no-op acceptor (`l35bw7qy`).
+- [x] Improve candidate supervision beyond the tiny N088 top8 cache using the Eval300 train partition; record that N091 improves candidate rank1 to `7/17` and oracle-change-only Tesseract to `-12`, but remains non-deployable (`dtiiuviv`).
+- [x] Test train-tuned no-op/abstention thresholds on the N091 score; record that N092 does not transfer safely and must not be promoted to counted `.oscr` (`nme6oouw`).
+- [x] Improve no-op calibration beyond a single best-candidate score threshold using score margins, group uncertainty, source/domain one-hot and best-candidate tabular evidence; record that N093 still overfits train and recovers zero useful val changes (`qjbxkbp7`).
+- [x] Analyze train/val source, top-k and reference-overlap shift after N091-N093; record that failures partly cluster at deep top-k but are not solved by source/rank/string-overlap filters (`dyqj43hl`).
+- [x] Extract full Eval300 top8 CRNN/ABINet train-teacher OCR/loss outputs and test fixed PARSeq/CRNN/ABINet teacher-consensus verification; record that strict consensus collapses to no-op and should not be promoted (`3ufv2ktz`, `36z5gtmk`, `cw71blzg`).
+- [x] Run a leave-source-out diagnostic for the N091 tabular ranker and record that candidate ranking itself weakens across held-out sources (`po46bnrf`).
+- [x] Run a source leave-out feature/loss ablation over N091-style top8 candidate ranking; record that `topk_rank + assignment_relative_error` is more robust than all-tabular/source-balanced widening, so simple first-stage rank should be kept as an anchor while wider scalar features alone are rejected (`ny4rt902`).
+- [x] Test train-tuned no-op policies over the simple top-k/rate prior; record that shallow one-dimensional/logistic acceptors reach only val Tesseract `-2` with six false changes and must not be promoted (`cs1us9r1`).
+- [x] Test top-k/rate anchored verifier features with richer latent/code-token context beyond scalar/tabular score summaries; record that the current small verifier still overfits train and reaches only validation Tesseract `-3` with two false/wrong changes (`zmk5957j`).
+- [x] Test source-domain OOF threshold calibration and hard-negative weighting over the top-k/rate latent/code verifier; record that OOF ensemble collapses to no-op and full-model OOF threshold reaches only val Tesseract `-2` with three false/wrong changes (`he3yxldr`).
+- [x] Test larger same-kind Eval600/source-balanced calibration labels over the top-k/rate latent/code verifier; record that all OOF/full validation policies collapse to no-op on `109` validation groups (`43an1dgl`).
+- [x] Train the first latent/code listwise ranker with CRNN/ABINet teacher-loss auxiliary regularization while excluding teacher/OCR/reference inputs; record the small unstable candidate-ranking gain (`8/17` exact changed best seed, `bbfhzt6p`) and no promotion.
+- [x] Run source leave-out stability for the latent/code teacher-auxiliary ranker; record that teacher loss improves aggregate Tesseract utility (`-41 -> -46`) but not exact oracle-code rank (`24/80 -> 23/80`) and still has too many wrong choices (`byfrp6jn`).
+- [x] Test a no-op-inclusive latent/code policy selector trained on train Tesseract/PARSeq utility hard targets; record that it transfers to Tesseract `0` with `4` false and `1` wrong validation changes, so train-OCR hard targets are non-promotable (`nabzwagk`).
+- [x] Test a no-op-inclusive latent/code policy selector trained on CRNN/ABINet teacher-loss utility hard targets; record that the best conservative validation setting has `0` exact useful changes, `3` false, `1` wrong, Tesseract `0`, so hard teacher-loss utility targets are also non-promotable (`l6uvc0zp`).
+- [x] Test a source-OOF no-op guard over the CRNN/ABINet teacher-auxiliary ranker; record that it is safe mostly by no-op and reaches only validation Tesseract `-1` with `1` exact useful and `1` false change (`e5hx93e1`).
+- [x] Extract CRNN/ABINet logit-summary features and test OCR-aware top8 selectors; record that fixed logit summaries give some rank support but train-tuned policies are no-op or harmful (`lm0rfc66`).
+- [x] Extract binned CRNN/ABINet sequence-profile features and test OCR-aware top8 selectors; record that position-preserving profiles improve oracle-change-only utility but still fail no-op calibration and should not be seed/capacity swept (`7yx6ljan`).
+- [x] Audit exact assignment-oracle labels against a Tesseract/PARSeq-safe utility oracle; record that they agree on the current Eval300 top8 table, so target mismatch is not the cause of N112 wrong choices (`2u9qp6rn`).
+- [x] Add materially new two-stage bottleneck evidence before another counted `.oscr` promotion attempt: N114 shows perfect candidate choice gives topk-rankcap `-17` at rank<=4 and `-24` at top8, while `source_mod5_r4` clean-val strength is provenance-sensitive (`0/6` rank1 but `5/6` rank<=4 on the truly held-out source-mod slice; W&B `73ktsaxv`). Use it as candidate-set design evidence, not as a deployable score source.
+- [x] Test a leakage-controlled rankcap4 candidate chooser over the clean topk-rank candidate set; record that random forest improves covered-only Tesseract to `-13` but remains wrong-heavy (`5` wrong, `5` missed), so shallow tabular rankcap choosers should not be promoted or capacity-swept (`euh2kyhd`).
+- [x] Test a local latent-window rankcap4 chooser over the same clean candidate set; record that a small CNN ties N115 rank1/rank<=4 coverage but worsens covered-only Tesseract versus the shallow tabular chooser, so this exact latent-window CNN should not be seed/capacity swept (`uunsr40q`).
+- [x] Build or train a leakage-controlled top8 first-stage candidate generator/shortlist whose validation scores are held out for the frozen clean val split and whose rankcap coverage improves beyond the deterministic `topk_rank<=4` `12/17` ceiling; N117 source-modulo OOF shortlist reaches `14/17` exact and Tesseract `-21` for OOF top4, and `15/17` / `-22` for topk4-union-OOF-top4 (`lz93tl1o`).
+- [x] Train a nearest/no-op-inclusive selector over the N117 source-modulo OOF shortlist, using only OOF score features plus deployable candidate evidence; record that logistic/HistGradient/random-forest selectors cannot safely consume the N117 headroom and at best recover `1/17` exact useful change with false/wrong additions (`ehwksv4h`).
+- [x] Audit N118 false/missed groups and score margins over the N117 OOF shortlist; record that covered oracle candidates are below nearest for all three shallow selectors in `15/15` cases, while random forest ranks oracle above wrong non-nearest in `8/15`, so the next fix is no-op/risk separation rather than candidate-set expansion alone (`p5okugfr`).
+- [x] Implement a materially different N117 policy objective that separates non-nearest proposal/ranking from no-op risk abstention; record that N120 recovers a safe partial policy (`2/17` exact, false/wrong `0`, Tesseract `-5`, PARSeq `0`) but remains below the current actual-bitstream floor and is not promotable (`kf6ekni7`).
+- [x] Diagnose the N120 safe-risk policy's missed hard positives; record that the hist-gradient proposer has `6` exact proposals but zero-bad risk can accept only `2`, while `9` oracle groups are lost at proposal rank1 and `2` are absent from the shortlist (`ll9iwhpy`).
+- [x] Test simple hard-positive/no-op-negative weighting for the N117/N120 proposal stage; record that proposal rank1 can move up to `8/17`, but safe risk policies still tie N120 at `2/17` exact and Tesseract `-5`, so scalar weighting is exhausted (`87vmfylo`).
+- [x] Improve the N117/N120 proposal stage with materially richer candidate-local evidence or a new representation; record that the first high-capacity latent/code/window proposal-risk diagnostic over the N117 shortlist overfits train and worsens validation proposal rank1 versus N120, so it should not be seed/capacity swept (`rlldzgi3`).
+- [x] Pivot from high-capacity latent-window proposal scoring to a simpler source-robust anchor; record that deterministic N117 proposal anchors restore rank1 only to `6/17` and still fail risk transfer, with best validation Tesseract only `-2` and false/wrong leakage (`lfs66wt4`).
+- [x] Test source-held-out risk calibration over deterministic N117 anchors; record that it mostly collapses to no-op and the best moving policy reaches only Tesseract `-1` with false/wrong leakage (`whucl72w`).
+- [x] Quantify the N117 verifier supervision gap before writing another selector; record that validation coverage is `15/17` but the shortlist is no-headroom dominated (`58` no-headroom groups, candidate negative/positive `24.8`), and that a promotable verifier must accept at least `3` exact useful changes with near-zero bad moves to beat the current `-8` actual-bitstream floor (`gma1wetq`).
+- [x] Build a train-only hard-cohort supervision manifest for the next N117 verifier objective; record `60` covered train oracle positives and `162` matched no-headroom negatives, with validation excluded and OCR/reference/delta fields marked as labels/audit metadata rather than deployable inputs (`zmzewu8d`).
+- [x] Train the first scrubbed verifier on N127 hard cohorts with train source-mod OOF thresholding; record that feature scrubbing succeeds but validation collapses to no-op and all-change policies are false-heavy, so hard-cohort supervision alone is not enough (`98v72lq6`).
+- [x] Train a matched-pairwise utility scorer on N127 hard cohorts; record that pairwise train accuracy reaches `1.0` but transferred policies still collapse to no-op or false changes, closing linear pairwise scoring over the same scrubbed feature family (`y61bs9uu`).
+- [x] Refresh the active `.venv` lock after the N128/N129 `scikit-learn==1.7.2` install by adding `environment/locks.oscar_venv_py310_sklearn17_2026_06_26.txt`.
+- [x] Audit actual `.oscr` section accounting for current/top4/top8 streams; record that selected streams carry only about `3` logical enhancement bytes but `103` optional bytes after table/header overhead, so compact optional symbol packing is required for low-bitrate claims (`po2m40fu`).
+- [x] Implement and smoke-test compact `TEXT_SYMBOLS` optional codebook payloads; record exact base/reconstruction preservation and `60` bytes saved per one-candidate stream on a 5-crop MLIC++ smoke (`8wefk30c`).
+- [x] Regenerate current learned Eval300 seed0/1/2 streams with compact `TEXT_SYMBOLS` packing and record actual `.oscr` bpp accounting: mean actual bpp `3.849649 -> 3.774026`, enhancement payload bpp `0.028989 -> 0.003781`, `4500` transmitted bytes saved at unchanged selector/base payloads (`ll3kk3zf`).
+- [x] Regenerate top4/top8 shortlist-oracle Eval300 seed0/1/2 streams with compact `TEXT_SYMBOLS` packing and record current/top4/top8 split-vs-compact actual `.oscr` accounting at matched compact bpp (`cz3ts55g`).
+- [x] Regenerate the nearest-assignment Eval300 seed0/1/2 streams with compact `TEXT_SYMBOLS` packing and record nearest/current/top4/top8 matched compact actual bpp (`fjr97j6p`).
+- [x] Join matched compact actual bpp with existing paired-bootstrap OCR evidence for the nearest/current/top4/top8 policy table (`ruuwcyk6`).
+- [x] Regenerate center-utility metadata for the train-codebook K64 utility-weighted codebooks, rerun utility-biased compact assignment under real `.oscr` bytes, and record that scalar center-utility assignment preserves PARSeq but loses to the current compact policy (`i0aqw89l`).
+- [x] Audit center-utility oracle-code rank and relative-error eligibility on the Eval300 top8 assignment table; record that validation oracle-change codes are rarely center-rank1 and often infeasible under tight relative-error guards (`4wdrz9ws`).
+- [x] Audit train-positive residual exception centers as a compact-symbol proposal-distribution change; record the K4/K8 useful-feasibility versus no-headroom-risk tradeoff and K16 as the safest small follow-up candidate (`ukcxz6kl`).
+- [x] Generate K80=K64+16 exception-center compact streams and audit real `.oscr` assignment behavior; record that nearest assignment selects `0/75` exception/non-nearest changes, so appended exception centers are a no-op without an explicit selector (`bzg5slyt`).
+- [x] Audit simple exception-center selector/no-headroom policies over K80 distance, margin and center-utility features; record that distance-only eligibility is train-high-precision but validation false-heavy, while shallow learned scores no-op under train-tuned budgets (`nfck52vf`).
+- [x] Run actual compact `.oscr` + Tesseract/PARSeq diagnostic for the conservative `extra_relative_error<=1.0` exception policy; record lower rate but no OCR improvement and Tesseract aggregate regression versus current (`x7imee7s`).
+- [x] Generate a visual contact sheet for N141 selected rows to guide the next candidate-local visual/code-effect evidence design.
+- [x] Freeze the post-N141 exception-center replace/drop design: future exception policies must preserve current by default and explicitly justify replace/drop actions before any actual `.oscr` OCR smoke.
+- [x] Build the first current-preserving exception-center action-readiness table; record that the current selected substrate has no new add-exception groups, only `current_and_exception` replacement candidates and `current_only` drop-risk rows (`rvcj9flu`).
+- [x] Audit N143 replacement supervision balance; record that train has only `1` proxy-false replacement candidate while validation has `13`, so rel<=1.0 proxy labels are not a usable standalone replacement target (`7pa1s2if`).
+- [x] Derive executed-policy current-relative replacement/drop labels from the matched N141 current/exception compact streams and Tesseract/PARSeq OCR; record that the action mix is `22` replacements, `28` drops and `100` keep-base rows, with only `5/150` strictly beneficial rows and most Tesseract harm coming from dropped current selections (`tvpq70xz`).
+- [x] Join current-relative labels back to N143 action features; record that proxy-true replacements still contain harm/neutral majority, and `28` dropped-current rows save only `1204` bytes while causing the aggregate Tesseract regression (`qhqzghzd`).
+- [x] Generate visual sheets for N145 harmful/mixed and beneficial current-relative rows; record that harmful/mixed rows are IAM-heavy and mostly tiny Tesseract-sensitive current-vs-base differences, while beneficial rows show that dropping current can help but is rare.
+- [x] Audit current-only train/validation distribution gap; record that train has only `14/180` close current-only rows at `rel<=1.5` while validation has `53/53`, so a replace/drop verifier needs mined close hard negatives before training (`rsngelv2`).
+- [x] Select a first exception counterfactual probe set with train-use close current-only/IAM/proxy-control rows and val harmful/mixed references; remap it into per-seed stream input splits/selections (`o4ps6zgx`).
+- [x] Run actual compact current-vs-exception/drop streams plus Tesseract/PARSeq for the 32 train-use probes; record lower bpp and aggregate Tesseract improvement but `4/32` harmful rows, so these labels are hard-negative diagnostics rather than a complete verifier training set (`jvzqm6hf`).
+- [ ] Pivot to a materially different verification objective or substantially more clean supervision; do not continue by widening N123's latent/code/window model, changing only seeds/epochs/dropout, resweeping N120 risk gates, trying more deterministic rank/score fusion anchors over the same N117 shortlist, or source-OOF thresholding the same shallow N120 risk features.
+- [ ] Design a verifier objective that uses N127 as auxiliary supervision but adds policy-level false-change/no-headroom suppression, direct group ranking, richer visual/local evidence, or more clean no-headroom data; do not retry the N128 scrubbed scalar/tree classifier family or N129 linear pairwise scorer as a seed/model sweep.
+- [ ] Use compact `TEXT_SYMBOLS` packing for any next selected Eval300 policy before using its compact-symbol rate in claims.
+- [ ] Implement an explicit exception-center selector/no-headroom verifier before any further utility-exception OCR evaluation; do not rerun nearest-assignment K80/K-plus-center streams as promotion attempts.
+- [ ] Add materially richer candidate-local visual/code-effect evidence before revisiting exception-center selection; do not promote distance-only or shallow distance/margin/center-utility exception selectors.
+- [ ] If revisiting exception centers, preserve current useful selected candidates or explicitly model replace/drop decisions; N141 shows a sparse exception-only policy can lower rate by omitting useful current enhancements while worsening Tesseract.
+- [ ] Build a current-preserving exception action table with `{keep_current, replace_with_exception, drop_current, keep_nearest}` labels/costs and source-held-out table precheck before any stream export.
+- [ ] Train or audit a current-preserving replace/drop verifier on `experiments/results/eval300_exception_center_action_readiness_2026_06_26.jsonl`; do not export streams unless current-relative OCR table checks pass.
+- [x] Derive explicit current-relative labels for the executed rel<=1.0 exception policy; use `experiments/results/eval300_exception_center_current_relative_labels_2026_06_26.jsonl` as diagnostic labels, not as a complete counterfactual oracle.
+- [ ] Build counterfactual current-relative replacement/drop supervision for current-selected units beyond the executed N141 policy; include hard negative drops/replacements and do not train directly on the rel<=1.0 proxy-positive cohort from N143.
+- [ ] Add an IAM-focused hard negative set for exception replace/drop supervision or audit why IAM dominates N146 harmful/mixed rows before training a current-preserving verifier.
+- [ ] Mine or generate close current-only hard negatives (`extra_relative_error<=1.5`) for train, especially IAM handwriting; do not train the exception replace/drop verifier on the current N143 train current-only distribution alone.
+- [x] Expand N151-style actual OCR labels beyond 32 train-use probes, prioritizing additional close current-only and proxy-false replacement rows before training a current-preserving replace/drop verifier; N152 labels `53` train-use probes with lower actual bpp and aggregate Tesseract gain, but still has `4/53` harmful rows (`y6x0wjkp`).
+- [x] Build an explicit harmful-row verifier/evidence audit over N151/N152 labels before any replace/drop training; record the four unique harmful rows and source/action distribution (`whghgit7`).
+- [x] Search simple deployable-feature veto rules over the N153 feature table; record the zero-harm conservative rule and the harm-budget frontier as diagnostic targets (`8skettkp`).
+- [x] Train a tiny LOO diagnostic current-preserving replace/drop veto over the 53-row N152/N153 feature table; record that logistic/forest collapse to all-veto or no-op and should not be swept (`vwffygur`).
+- [x] Expand the actual exception/drop probe to rel<=4 and rerun current-vs-exception compact streams plus OCR; record that N156 adds mostly neutral labels (`17` beneficial, `41` neutral, `5` harmful) and does not improve the zero-harm frontier, so N152 rel<=2 remains the active probe frontier (`8pfcdtsv`, `pxz0ztxx`, `oui8k7ce`).
+- [x] Add a reproducible v2-to-v3 expansion audit; record that the 10 added rel<=4 rows are `1` beneficial, `8` neutral and `1` harmful, with added-row Tesseract unicode `+1`, closing threshold widening as the next data-acquisition tactic (`uprhtlh3`).
+- [ ] Collect more labeled hard negatives or add a materially stronger verifier objective before training another exception replace/drop model; first acceptance criterion is matching or improving the N154 frontier under held-out thresholding, not merely aggregate OCR gain. Promotion still requires actual compact `.oscr` OCR against current.
+- [ ] Replace row argmax plus post-hoc margin with cross-fit calibration, direct policy-level false-change/no-headroom suppression, hard-positive recall loss, or more training data/richer context on the top8 latent-window artifact.
+- [ ] Use imgstroke/projection features only as auxiliary evidence inside a stricter externally calibrated verifier; do not promote a standalone imgstroke threshold, because N078 has only one reject sample and earlier imgstroke group-gate policy was negative.
+- [ ] Design a conditional or subset-aware multi-candidate allocator; N069 rejects independent utility summation because pair streams often saturate or underperform the best single candidate.
+- [ ] Add stop/continue supervision or diminishing-return regularization for multi-candidate enhancement; N070/N071 show adding second/third candidates can increase PSNR while reducing OCR gain, and N071's subset oracle chooses one candidate for most Tesseract samples and all PARSeq samples.
+- [ ] Build a conditional-edge training target where first-candidate and second-candidate utilities are modeled separately; N072 shows Tesseract base-to-single edges improve by `-179` edits while single-to-pair edges worsen by `+178`.
+- [x] Train/evaluate a tiny transition-aware stop/continue diagnostic on the N073 edge table before scaling conditional labels beyond smoke40; `first_only` is the current floor.
+- [x] Train/evaluate cross-fit feature allocators over the N073 edge table; N075 confirms shallow transition/candidate/rate/PSNR/source features do not beat `first_only`.
+- [ ] Beat the N074 `first_only` floor with a learned conditional allocator before generating larger multi-candidate label tables.
 - [ ] Implement conditional text enhancement latent.
 - [ ] Verify base-only independent decoding and packet truncation.
 - [ ] Train at two budgets and test held-out OCR.
@@ -52,10 +329,24 @@
 - [ ] Scene, screen and document domains with approved datasets.
 - [ ] 4–6 overlapping operating points and 3 training seeds.
 - [ ] Actual total-rate and per-section breakdown.
+- [x] Actual `.oscr` per-section accounting for current/top4/top8 Eval300 one-candidate streams across seed0/1/2 (`po2m40fu`).
+- [x] Compact optional section smoke with exact reconstruction preservation and actual-byte saving evidence (`8wefk30c`).
 - [ ] text-size, script, numeric and domain stratification.
 - [ ] complexity, memory and optional energy measurements.
+- [x] Run a first one-stream OSCR CRC / optional-section robustness smoke and record the base-payload CRC-bypass hazard (`4369gwqs`).
+- [x] Repeat the OSCR CRC / optional-section robustness smoke on a top-8 oracle actual `.oscr` stream; record verified base-only repack, `TEXT_MAIN` corruption salvage boundary, and intentional skip of unsafe CRC-failed `BASE_MAIN` decoding (`uv6gko0x`).
+- [x] Implement and smoke-test an explicit section-level recovery parser that quarantines corrupt optional sections but rejects corrupt required `BASE_MAIN`, then rerun the top-8 stream smoke with recovery-profile evidence (`zqz4zdmu`).
+- [x] Batch-audit the section-level recovery profile across all 75 top-8 oracle seed0 actual `.oscr` streams; record 25/25 optional `TEXT_MAIN` corruption recoveries and 75/75 required `BASE_MAIN` corruption rejections (`n0g68a63`).
+- [x] Extend the section-level recovery batch audit to seed0/1/2 top-8 oracle actual `.oscr` streams; record 75/75 optional `TEXT_MAIN` corruption recoveries and 225/225 required `BASE_MAIN` corruption rejections (`l5lc49qa`).
+- [x] Run held-out TrOCR evaluation-only smoke on actual `.oscr` nearest/current-best/top-4-shortlist-oracle Eval300 reconstructions; record that current best is neutral and shortlist oracle has tiny Latin improvement with zero TrOCR worsened samples (`eszdu4x5` plus individual runs).
+- [x] Lock PaddleOCR `PP-OCRv6_medium_rec` as a stronger scene-text held-out recognizer and run evaluation-only smoke on actual `.oscr` nearest/current-best/top-4-shortlist-oracle Eval300 reconstructions; record exact neutrality across 225 samples (`xb5dwhsq`).
+- [x] Run held-out PaddleOCR detector+recognizer E2E evaluation on actual `.oscr` nearest/current-best/top-4-shortlist-oracle Eval300 reconstructions; record exact neutrality plus detector failure counts across 225 samples (`ic4t04a1`).
+- [x] Extend held-out TrOCR, PaddleOCR recognizer-only and PaddleOCR detector+recognizer E2E evaluation to the top-8 actual `.oscr` oracle; record no regressions and exact PaddleOCR neutrality across 225 samples (`df2stogf`).
+- [x] Measure held-out PaddleOCR detector+recognizer original word-crop upper bound for Eval300 seed0/1/2 val75 and compare original-to-actual-OSCR degradation (`1uazp83l`).
+- [x] Run a first full-image TextOCR/PaddleOCR detector+recognizer protocol smoke over 8 local train images, with image-path/hash split, model hashes, IoU-matched detection/exact/CER summary and W&B/manifest logging (`i01p5iel`).
 - [ ] corruption, bit error and model-drift tests.
-- [ ] image-level paired bootstrap confidence intervals.
+- [x] image-level paired bootstrap confidence intervals for actual-bitstream Eval300 OCR comparisons; record that current best touches zero CI while the top-4 shortlist oracle remains strictly positive headroom at unchanged bpp.
+- [x] image-level paired bootstrap confidence intervals for top8 actual-bitstream Eval300 OCR comparisons; record that top8 nearest/current Tesseract CIs exclude zero, held-out primary unicode evaluators are unchanged, and top4->top8 is observed positive but not statistically separated yet.
 
 ## P5 — Optional extensions after core result
 

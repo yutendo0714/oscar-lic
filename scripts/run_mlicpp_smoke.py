@@ -15,6 +15,7 @@ import sys
 from time import perf_counter
 
 from PIL import Image
+import numpy as np
 import torch
 import torch.nn.functional as F
 from torchvision import transforms
@@ -66,6 +67,15 @@ def read_stream(path: Path):
     return original_size, strings, shape
 
 
+def compute_psnr_only(rec: Image.Image, gt: Image.Image) -> float:
+    rec_np = np.asarray(rec).copy()
+    gt_np = np.asarray(gt).copy()
+    rec_t = torch.from_numpy(rec_np).float()
+    gt_t = torch.from_numpy(gt_np).float()
+    mse = torch.mean((rec_t - gt_t) ** 2).item()
+    return 20.0 * torch.log10(torch.tensor(255.0)).item() - 10.0 * torch.log10(torch.tensor(mse)).item()
+
+
 def load_model(checkpoint_path: Path, device: str) -> tuple[MLICPlusPlus, dict]:
     model = MLICPlusPlus(config=model_config()).to(device)
     checkpoint = torch.load(checkpoint_path, map_location=device)
@@ -105,7 +115,10 @@ def run_one(model: MLICPlusPlus, image_path: Path, output_dir: Path, device: str
     rec = torch2img(x_hat.detach().cpu())
     image.save(gt_path)
     rec.save(rec_path)
-    psnr, msssim = compute_metrics(rec, image)
+    try:
+        psnr, msssim = compute_metrics(rec, image)
+    except AssertionError:
+        psnr, msssim = compute_psnr_only(rec, image), None
 
     return {
         "image": project_path(image_path),
@@ -176,7 +189,12 @@ def main() -> int:
         "images": len(rows),
         "avg_actual_total_bpp": sum(row["actual_total_bpp"] for row in rows) / len(rows),
         "avg_psnr_db": sum(row["psnr_db"] for row in rows) / len(rows),
-        "avg_ms_ssim": sum(row["ms_ssim"] for row in rows) / len(rows),
+        "avg_ms_ssim": (
+            sum(row["ms_ssim"] for row in rows if row["ms_ssim"] is not None)
+            / sum(1 for row in rows if row["ms_ssim"] is not None)
+            if any(row["ms_ssim"] is not None for row in rows)
+            else None
+        ),
     }
 
     results_path = args.output_dir / "results.jsonl"

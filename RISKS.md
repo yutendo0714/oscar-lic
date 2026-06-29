@@ -14,3 +14,7 @@
 | Baseline environment rot | high | medium | installation failure | pinned commits, isolated envs, patches documented |
 | Statistical cherry-picking | medium | high | selected images drive gains | preregister primary metrics, bootstrap CIs, all-image outputs |
 | Privacy leakage | medium | high | attacker decodes text from latent | privacy track, encryption option, no plaintext main track |
+| Row-metric false confidence | high | high | AUC/AP improves while actual `.oscr` OCR worsens | promote only actual-byte reconstruct/OCR policies; keep negative controls |
+| Eval300 pilot overclaim | medium | high | result does not scale to larger approved domains | label as pilot, expand domains and OCR families before paper claims |
+| Unsafe corrupted-base decode | medium | high | CRC-bypassed base payload causes entropy decoder crash/OOM | fail closed by default; never decode `BASE_MAIN` without CRC; add explicit recovery profile for optional-section damage only |
+| Container GPU visibility loss | medium | medium | `nvidia-smi` fails or CUDA disappears | stop GPU experiments and wait for container restart instruction |

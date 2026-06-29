@@ -1,0 +1,81 @@
+{
+  "captured_at": "2026-06-25T21:01:06.569915+00:00",
+  "python": "3.10.12 (main, May 21 2026, 00:03:45) [GCC 15.2.0]",
+  "executable": "/workspace/oscar-lic/.venv-paddleocr/bin/python",
+  "platform": "Linux-5.4.0-216-generic-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "processor": "",
+  "venv": ".venv-paddleocr",
+  "lock_file": "environment/locks.paddleocr-py310-cpu-2026_06_26.txt",
+  "lock_sha256": "420056e7f6b5983373e365dda1e6d9c89fffff5103b806943f1d20fdffa48f3f",
+  "packages": {
+    "paddlepaddle": "3.3.1",
+    "paddleocr": "3.7.0",
+    "paddlex": "3.7.2",
+    "numpy": "2.2.6",
+    "Pillow": "12.1.0",
+    "opencv-contrib-python": "4.10.0.84",
+    "pandas": "2.3.3",
+    "huggingface-hub": "1.21.0",
+    "modelscope": "1.37.1",
+    "wandb": null
+  },
+  "commands": {
+    "git": {
+      "returncode": 0,
+      "stdout": "git version 2.53.0",
+      "stderr": ""
+    },
+    "nvidia_smi": {
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 4070 Ti SUPER, 570.148.08, 16376 MiB",
+      "stderr": ""
+    },
+    "tesseract": {
+      "returncode": 0,
+      "stdout": "tesseract 5.5.0\n leptonica-1.86.0\n  libgif 5.2.2 : libjpeg 8d (libjpeg-turbo 2.1.5) : libpng 1.6.57 : libtiff 4.7.0 : zlib 1.3.1 : libwebp 1.5.0 : libopenjp2 2.5.4\n Found AVX2\n Found AVX\n Found FMA\n Found SSE4.1\n Found OpenMP 201511\n Found libarchive 3.8.5 zlib/1.3.1 liblzma/5.8.3 bz2lib/1.0.8 liblz4/1.10.0 libzstd/1.5.7 nettle/3.10 libb2/bundled libacl/2.3.2 libattr/2.3.2\n Found libcurl/8.18.0 OpenSSL/3.5.5 zlib/1.3.1 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.2 libssh2/1.11.1 nghttp2/1.68.0 librtmp/2.3 mit-krb5/1.22.1 OpenLDAP/2.6.10",
+      "stderr": ""
+    }
+  },
+  "executables": {
+    "git": "/usr/bin/git",
+    "nvidia-smi": "/usr/bin/nvidia-smi",
+    "tesseract": "/usr/bin/tesseract"
+  },
+  "paddle_runtime": {
+    "version": "3.3.1",
+    "device": "cpu_evaluator_only",
+    "compiled_with_cuda": false
+  },
+  "paddleocr_model": {
+    "name": "PP-OCRv6_medium_rec",
+    "dir": "/root/.paddlex/official_models/PP-OCRv6_medium_rec",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "size_bytes": 1575,
+        "sha256": "a3a43406012ee8c7b9b38dfab1b11610f33e8245cd864a9a9302d042616a859e"
+      },
+      {
+        "path": "README.md",
+        "size_bytes": 23474,
+        "sha256": "75ff9c4853ed171f36224127805062f9bcd1cfbbcacae3d577344866df74f6d3"
+      },
+      {
+        "path": "inference.json",
+        "size_bytes": 221814,
+        "sha256": "0b2e25e990bd072f1bf77d59d67d508bce6c4bd44af6624e0fb27d6da2cd00e8"
+      },
+      {
+        "path": "inference.pdiparams",
+        "size_bytes": 76465087,
+        "sha256": "1b01c79a914587933f615569e75de54f2e638ebb5d3f3b3c1b38c24ede8c7319"
+      },
+      {
+        "path": "inference.yml",
+        "size_bytes": 150580,
+        "sha256": "991b700facf5b50a7de193468207d5f4255b538dde0d312ae3b7c7a9b6873129"
+      }
+    ]
+  }
+}

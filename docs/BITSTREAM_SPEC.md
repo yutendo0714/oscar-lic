@@ -71,10 +71,23 @@ Entry total: 40 bytes.
 | 11 | TEXT_HYPER | no | enhancement hyperprior |
 | 12 | TEXT_MAIN | no | enhancement payload |
 | 13 | TEXT_PROTECTION | no | FEC/parity metadata |
+| 14 | TEXT_SYMBOLS | no | compact decoder-known gate/code symbols |
 | 20 | MODEL_METADATA | no | nonsemantic decoder parameters allowed by protocol |
 | 30 | EXPERIMENT_METADATA | no in publication files | minimal reproducibility identifiers; not used by decoder |
 
 Track A validation rejects sections containing OCR text strings, UTF-8 transcriptions or word coordinates not derivable from decoded base features.
+
+### 3.1 Experimental codec IDs
+
+| ID | Name | Meaning |
+|---:|---|---|
+| 1 | OSCAR_GATE_V0 | counted candidate gate payload defined in section 6 |
+| 2 | OSCAR_LATENT_RESIDUAL_V0 | experimental quantized latent residual payload for selected candidates |
+| 3 | OSCAR_LATENT_CODEBOOK_V0 | experimental decoder-known latent residual codebook indices for selected candidates |
+| 4 | OSCAR_COMPACT_CODEBOOK_V0 | compact decoder-known candidate/code pairs defined in section 6.1 |
+| 1001 | MLICPP_UPSTREAM_BODY | MLIC++ `write_body(shape, strings)` payload stored inside one `BASE_MAIN` section |
+
+Codec ID 1001 is a frozen-base adapter for controlled experiments. It preserves MLIC++ entropy coding but does not expose per-slice bytes.
 
 ## 4. Flags
 
@@ -103,6 +116,25 @@ encoded_gate_bytes: remaining payload
 
 Candidate geometry is determined by model version; per-image box coordinates are not sent unless encoded as part of the counted gate syntax.
 
+The current experimental `OSCAR_GATE_V0` body uses one of two counted encodings:
+
+- dense bitset: `ceil(num_candidates / 8)` bytes, least-significant bit first within each byte;
+- sparse index list: sorted unique uint16 indices when `num_candidates <= 65535`, otherwise sorted unique uint32 indices.
+
+The decoder infers the body syntax from the remaining payload length. If both lengths are equal, the encoder chooses the dense bitset. This keeps the header at 14 bytes while making the gate payload directly countable in `total_bytes`.
+
+### 6.1 Compact decoder-known codebook symbols
+
+`TEXT_SYMBOLS` with codec `OSCAR_COMPACT_CODEBOOK_V0` is a research packing for the current latent-codebook stub. It combines candidate selection and code index transmission in one optional section:
+
+```text
+repeated:
+  candidate_index: uint16
+  code_index: uint8
+```
+
+The payload length must be a multiple of 3 bytes, candidate indices must be sorted and unique, and code indices are uint8. Candidate layout, codebook identity and probability model are decoder-known through `model_id/model_version` and codec registry state; they are not retransmitted in this compact payload. This is only valid for experiments where the decoder-known registry fixes the candidate layout and codebook. If a publication stream uses per-image layout or codebook metadata, those bytes must be transmitted through another counted section.
+
 ## 7. Progressive truncation
 
 A valid truncation point is a complete section or independently checksummed packet. Byte truncation inside an arithmetic-coded packet is invalid. For progressive experiments, split text payload into ordered packets and include each as a section or subpacket table.
@@ -113,6 +145,20 @@ A valid truncation point is a complete section or independently checksummed pack
 - FEC overhead is physically included in the section length and total bytes.
 - Critical text packets may use stronger protection based on decoder-known ordering, not plaintext identity.
 - File CRC32 covers all preceding bytes.
+
+### 8.1 Section-level recovery profile
+
+The default decoder path is fail-closed: any header, file or payload CRC mismatch invalidates the full stream. Research recovery experiments may use a stricter salvage profile with the following boundaries:
+
+- header and section-table CRC must verify before any section offsets or payload CRC values are trusted;
+- complete file length must match `total_bytes`;
+- overlapping, out-of-range or structurally invalid sections are fatal;
+- each payload is checked against its own section CRC;
+- corrupt optional sections are quarantined and not passed to their decoders;
+- corrupt required base sections are fatal;
+- decoders must not consume payload bytes from rejected sections.
+
+This profile can support base-only reconstruction after optional enhancement damage, but it is not error correction. Any future UEP/FEC claim must include its physical overhead in the transmitted file length.
 
 ## 9. Rate computation
 

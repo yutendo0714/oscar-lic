@@ -125,12 +125,13 @@ Unit tests:
 
 Warnings:
 
-- checkpoint hashes are intentionally unresolved for MLIC++, PARSeq, and DCAE until weights are downloaded and hashed.
+- MLIC++ corrected and PARSeq checkpoints are now downloaded and hashed.
+- DCAE and stronger held-out OCR evaluator weights remain unresolved until they are downloaded, hashed and license-checked.
 
 ## Next Required Foundation Work
 
-1. Download one corrected MLIC++ checkpoint, preferably lambda 0.0250 first, and record URL, file size, SHA256, model class, and architecture variant.
-2. Run a real MLIC++ compress/decompress smoke on toy or CLIC validation images and report actual complete-file bpp.
-3. Freeze a PARSeq teacher checkpoint and at least one held-out OCR evaluator.
+1. Freeze a stronger second held-out OCR family, preferably PaddleOCR or TrOCR.
+2. Expand actual-bitstream OCR crop sweeps beyond the first 24-crop smoke split.
+3. Implement original-recognizable and low-confidence strata for OCR utility analysis.
 4. Implement a base codec adapter boundary rather than modifying MLIC++ internals broadly.
 5. Add wandb logging hooks to actual training/evaluation scripts before the first learned run.

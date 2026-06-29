@@ -59,3 +59,25 @@ Record deleted intermediate checkpoints and their selection criterion. Never del
 ## 5. Run launch rule
 
 A run requiring more than the locally approved GPU-hour or storage threshold needs a written estimate and decision entry. An AI agent must not infer unlimited compute from the research objective.
+
+## 6. Current Eval300 Pilot Snapshot
+
+Measured on 2026-06-25 in `/workspace/oscar-lic`:
+
+- GPU visible: NVIDIA GeForce RTX 4070 Ti SUPER, 16GB.
+- `experiments/features`: `7.8M`.
+- `experiments/results`: `589M`.
+- `experiments/reports`: `224K`.
+- `experiments/manifests`: `16K`.
+- `wandb`: `21M`.
+- Main reproducibility manifest:
+  - path: `experiments/manifests/oscar_lic_12h_repro_manifest_2026_06_25.yaml`;
+  - size: `6583` bytes;
+  - role: checkpoint/artifact/W&B/validation index for the 12h research pass.
+- Structured local latent-window full train+val artifact:
+  - path: `experiments/features/eval300_assignment_top4_codeeffect_latentctx_windows_seed0_1_2_2026_06_25.npz`;
+  - size: `2.7M`;
+  - groups/rows: `300` / `1213`;
+  - arrays: `[300, 5, 32, 12, 12]` for each `latent_window_*` tensor.
+
+This scale is safe for rapid assignment-head iteration. The next storage jump will come from larger OCR counterfactual tables and actual reconstructed `.oscr` outputs, not from the compact tensor/window artifacts.

@@ -1,0 +1,99 @@
+config_version: 1
+experiment_family: assignment_group_noop_window
+date: 2026-06-25
+
+purpose: >
+  Train the next candidate-conditioned code-index assignment head for the
+  frozen-base OSCAR-LIC K64 utility-weighted codebook path. This config is the
+  successor to the negative standalone tensor/latent/window reranker smokes.
+
+base_codec:
+  id: mlicpp_corrected_lambda_0p025
+  checkpoint: experiments/checkpoints/mlicpp/mlicpp_mse_0025_corrected.pth.tar
+  checkpoint_sha256: 67af8c950a4e8ae03da9bc95b87d13fd7831063ad12b7df1f872154e0082c559
+  frozen: true
+
+data:
+  tensor_artifact: experiments/features/eval300_assignment_top4_codeeffect_latentctx_windows_seed0_1_2_2026_06_25.npz
+  tensor_artifact_sha256: 9a1fab0995360ed5392a3b85567306f19573d6a8739a55198905bb66f93faa5a
+  metadata: experiments/features/eval300_assignment_top4_codeeffect_latentctx_windows_seed0_1_2_2026_06_25.npz.meta.json
+  split_key: seed
+  val_seed: 1
+  groups: 300
+  candidates_per_group: 5
+  arrays:
+    code: [code_center, nearest_center, delta_center, core_features]
+    latent_window: [latent_window_yhat, latent_window_target, latent_window_residual]
+    targets: [labels, parseq_delta, tesseract_delta, is_nearest]
+
+baseline_to_beat:
+  policy: pooled_image_diff_group_gate_model1_threshold_0p5
+  actual_mean_bpp: 3.849649
+  actual_enhancement_bpp: 0.028989
+  parseq_delta: 0
+  tesseract_unicode_delta: -8
+  tesseract_latin_delta: -8
+  changed_groups: 5
+  false_changes: 1
+  wrong_changes: 0
+
+model:
+  nearest_is_explicit_noop: true
+  row_encoder:
+    code_projection_dim: 64
+    core_projection_dim: 24
+    latent_window_encoder:
+      type: small_cnn
+      input_channels: 96
+      hidden_channels: 96
+      output_dim: 48
+      pooling: attention_or_avg
+  group_head:
+    type: shared_encoder_noop_gate
+    outputs:
+      - candidate_scores
+      - group_change_logit
+      - parseq_harm_logit
+      - tesseract_gain_logit
+  calibration:
+    train_threshold_source: train_only
+    forbid_validation_tuned_promotion: true
+
+loss:
+  listwise_oracle_choice_ce: 1.0
+  group_change_bce: 0.5
+  false_change_margin_no_headroom: 1.0
+  parseq_harm_penalty: 0.2
+  tesseract_nonimprove_penalty: 0.2
+
+training:
+  optimizer: adamw
+  learning_rate: 0.001
+  weight_decay: 0.001
+  hidden_dim: 96
+  dropout: 0.2
+  epochs: 500
+  model_seeds: [0, 1, 2]
+  device: cuda_required
+
+promotion:
+  table_level_required_before_actual_bitstream:
+    parseq_delta: 0
+    tesseract_delta_strictly_less_than: -8
+    false_changes_max: 1
+    wrong_changes_max: 0
+  actual_bitstream_required:
+    export_explicit_policy: true
+    counted_oscr_decode: true
+    parseq_pairwise_compare: true
+    tesseract_pairwise_compare: true
+    complete_file_bpp: true
+
+negative_controls_to_avoid_repeating:
+  - flat_latent_concat
+  - uncalibrated_latent_side_branch
+  - standalone_pooled_latent_cnn
+  - standalone_pooled_latent_window_cnn
+  - scalar_no_change_penalty_only
+  - validation_tuned_margin_gate_as_claim
+

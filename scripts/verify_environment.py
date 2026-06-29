@@ -12,7 +12,24 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from oscarlic.manifests import basic_environment, run_command, utc_now_iso  # noqa: E402
 
-PACKAGES = ["PyYAML", "jsonschema", "numpy", "Pillow", "pytest", "torch", "torchvision", "compressai"]
+PACKAGES = [
+    "PyYAML",
+    "jsonschema",
+    "numpy",
+    "Pillow",
+    "pytest",
+    "torch",
+    "torchvision",
+    "compressai",
+    "pytorch-lightning",
+    "timm",
+    "strhub",
+    "transformers",
+    "tokenizers",
+    "sentencepiece",
+    "huggingface-hub",
+    "wandb",
+]
 
 
 def main() -> int:
@@ -32,8 +49,9 @@ def main() -> int:
         "nvidia_smi": run_command(["nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader"]),
         "nvcc": run_command(["nvcc", "--version"]),
         "conda": run_command(["conda", "--version"]),
+        "tesseract": run_command(["tesseract", "--version"]),
     }
-    info["executables"] = {name: shutil.which(name) for name in ["git", "nvidia-smi", "nvcc", "conda", "ffmpeg"]}
+    info["executables"] = {name: shutil.which(name) for name in ["git", "nvidia-smi", "nvcc", "conda", "ffmpeg", "tesseract"]}
     try:
         import torch
         info["torch_runtime"] = {
