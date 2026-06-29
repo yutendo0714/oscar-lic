@@ -31,6 +31,18 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Primary source:** https://openaccess.thecvf.com/content_CVPR_2020/html/Cheng_Learned_Image_Compression_With_Discretized_Gaussian_Mixture_Likelihoods_and_Attention_CVPR_2020_paper.html
 - **Research priority:** P1
 
+### Scaling Learned Image Compression Models up to 1 Billion (2025, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Scale an HPCM-style LIC model from 68.5M parameters to 1B and fit power-law trends for model size and training compute.
+- **Datasets:** LIC benchmark sets used by HPCM; verify exact splits
+- **Metrics:** RD loss; BD-rate; scaling laws
+- **Reported result:** Author reports state-of-the-art RD performance for HPCM-1B.
+- **Difference / caveat:** Compute-heavy scaling study; not suitable as OSCAR first-path model but useful for upper-bound context.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2508.09075
+- **Research priority:** P2
+
 ### Adaptive Learned Image Compression with Graph Neural Networks (2026, CVPR)
 
 - **Evidence status:** peer_reviewed
@@ -179,6 +191,18 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Primary source:** https://openreview.net/
 - **Research priority:** P1
 
+### CMIC: Content-Adaptive Mamba for Learned Image Compression (2025, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Content-aware token reorganization and prompt dictionary adapt Mamba-style state-space modeling to image content.
+- **Datasets:** Kodak; Tecnick; CLIC
+- **Metrics:** PSNR; MS-SSIM; BD-rate; complexity
+- **Reported result:** Author reports BD-rate reductions of 15.91%; 21.34%; 17.58% versus VTM-21.0 on Kodak; Tecnick; CLIC.
+- **Difference / caveat:** Code/checkpoints were not confirmed at this snapshot; treat as preprint until venue/code status stabilizes.
+- **Implementation:** announced_later; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2508.02192
+- **Research priority:** P2
+
 ### Linear Attention Modeling for Learned Image Compression (2025, CVPR)
 
 - **Evidence status:** peer_reviewed
@@ -215,6 +239,18 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Difference / caveat:** Primarily CNN-based; applicability to global attention/SSM must be tested.
 - **Implementation:** verify; no verified public implementation
 - **Primary source:** https://openaccess.thecvf.com/content/CVPR2026/html/Kim_Block-based_Learned_Image_Compression_without_Blocking_Artifacts_CVPR_2026_paper.html
+- **Research priority:** P2
+
+### Efficient Learned Image Compression without Entropy Coding (2026, arXiv / ICML verify)
+
+- **Evidence status:** preprint
+- **Core idea:** Entropy-coding-free multi-rate LIC using unconstrained vector quantization and context-conditioned autoregressive transform to reduce statistical/correlation redundancy.
+- **Datasets:** Kodak and LIC perceptual benchmarks
+- **Metrics:** LPIPS; bitrate; encode/decode latency
+- **Reported result:** Author reports comparable performance to entropy-coded variants with faster encode/decode and up to 67.86% bitrate reduction over MS-ILLM on Kodak LPIPS.
+- **Difference / caveat:** Official inference code exists; exact serialized index format/checkpoint hash/license and actual complete-file bpp must be audited before baseline use.
+- **Implementation:** official_inference; https://github.com/SevenCTHU/EF-LIC
+- **Primary source:** https://arxiv.org/abs/2605.23323
 - **Research priority:** P2
 
 ### What Matters in Practical Learned Image Compression (2026, CVPR)
@@ -305,6 +341,18 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Primary source:** https://openaccess.thecvf.com/content/CVPR2026/html/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.html
 - **Research priority:** P2
 
+### CoD-Lite: Real-Time Diffusion-Based Generative Image Compression (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** One-step lightweight convolutional diffusion codec with compression-oriented pretraining; distillation and adversarial fine-tuning.
+- **Datasets:** 1080p and generative compression benchmarks
+- **Metrics:** FID; bpp; encode/decode FPS
+- **Reported result:** Author reports 60 FPS encoding and 42 FPS decoding at 1080p on A100 and 85% bitrate reduction at comparable FID to MS-ILLM.
+- **Difference / caveat:** Generative hallucination risk is acknowledged by authors; exact text/OCR preservation must be separately tested.
+- **Implementation:** official_announced; https://github.com/microsoft/GenCodec/CoD_Lite
+- **Primary source:** https://arxiv.org/abs/2604.12525
+- **Research priority:** P2
+
 ### CoD: A Diffusion Foundation Model for Image Compression (2026, CVPR)
 
 - **Evidence status:** peer_reviewed
@@ -316,6 +364,30 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Implementation:** official; https://github.com/microsoft/GenCodec/tree/main/CoD
 - **Primary source:** https://openaccess.thecvf.com/content/CVPR2026/html/Jia_CoD_A_Diffusion_Foundation_Model_for_Image_Compression_CVPR_2026_paper.html
 - **Research priority:** P1
+
+### FlowCodec: One-Step Flow Prior for Generative Image Compression (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Decouples latent compression from one-step latent transport through pretrained flow/diffusion priors with lightweight LoRA adaptation and multi-bitrate control.
+- **Datasets:** Kodak; Tecnick; DIV2K; CLIC 2020
+- **Metrics:** PSNR; MS-SSIM; LPIPS; DISTS; user study; runtime
+- **Reported result:** Author reports SOTA perceptual metrics for Qwen-image variant and favorable one-step encoding speed; supplementary reports text/identity semantic preservation metrics.
+- **Difference / caveat:** Large pretrained generative priors may hallucinate or alter exact text; decoder cost and prompt/side-info policy must be counted.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2606.21030
+- **Research priority:** P2
+
+### Region-Adaptive Generative Compression with Spatially Varying Diffusion Models (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Spatially varying diffusion denoising and importance maps support controllable non-uniform bit allocation.
+- **Datasets:** ROI and full-image perceptual benchmarks
+- **Metrics:** ROI-masked perceptual quality; full-image perceptual quality; bpp
+- **Reported result:** Author reports state-of-the-art ROI-masked and full-image perceptual quality against spatially adaptive baselines.
+- **Difference / caveat:** Importance maps and possible side information must be counted; exact text fidelity remains a risk.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2604.01122
+- **Research priority:** P2
 
 ### Ultra-Low Bitrate Perceptual Image Compression with Shallow Encoder (2026, CVPR)
 
@@ -368,6 +440,18 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Implementation:** verify; no verified public implementation
 - **Primary source:** https://openaccess.thecvf.com/content/CVPR2024/html/Jia_Generative_Latent_Coding_for_Ultra-Low_Bitrate_Image_Compression_CVPR_2024_paper.html
 - **Research priority:** P1
+
+### HVQ-CGIC: Enabling Hyperprior Entropy Modeling for VQ-Based Controllable Generative Image Compression (2025, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Introduce a VQ hyperprior entropy model and RD-control loss for VQ-based controllable generative compression.
+- **Datasets:** Kodak; generative compression comparisons
+- **Metrics:** LPIPS; bits; RD control
+- **Reported result:** Author reports 61.3% fewer bits at matched LPIPS versus Control-GIC; CDC; HiFiC on Kodak.
+- **Difference / caveat:** Preprint timing/status and code availability need verification; exact OCR fidelity untested.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2512.07192
+- **Research priority:** P2
 
 ### Differentiable Vector Quantization for Rate-Distortion Optimization of Generative Image Compression (2026, CVPR)
 
@@ -657,6 +741,30 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Primary source:** https://arxiv.org/abs/2503.19817
 - **Research priority:** P2
 
+### Control Your View: High-Resolution Global Semantic Manipulation in Learned Image Compression (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Studies high-resolution global semantic manipulation attacks against learned image compression systems.
+- **Datasets:** LIC benchmark images and manipulated semantics
+- **Metrics:** semantic manipulation success; RD impact
+- **Reported result:** Shows LIC can be vulnerable not only to RD degradation but also high-level semantic manipulation after compression.
+- **Difference / caveat:** Threat constraints and exact codec targets need verification; directly motivates semantic-integrity tests for text-bearing images.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2605.08727
+- **Research priority:** P1
+
+### On the Robustness of Diffusion-Based Image Compression to Bit-Flip Errors (2026, CVPR Workshop)
+
+- **Evidence status:** peer_reviewed_workshop
+- **Core idea:** Evaluate bit-flip robustness of RCC-style diffusion compressors and propose a more robust Turbo-DDCM variant.
+- **Datasets:** Kodak; DIV2K
+- **Metrics:** PSNR; LPIPS; FID; corrupted output rate
+- **Reported result:** Authors report RCC-based diffusion compressors are substantially more robust to bit flips than classical and learned codecs.
+- **Difference / caveat:** Focuses on diffusion/RCC representations; OSCAR `.oscr` text enhancement still needs direct bit-flip tests.
+- **Implementation:** not_confirmed; https://openaccess.thecvf.com/content/CVPR2026W/AIGENS/html/Vaisman_On_the_Robustness_of_Diffusion-Based_Image_Compression_to_Bit-Flip_Errors_CVPRW_2026_paper.html
+- **Primary source:** https://arxiv.org/abs/2604.05743
+- **Research priority:** P1
+
 ## RAW / ISP-Aware Compression
 
 ### Invertible Image Signal Processing (2021, CVPR)
@@ -732,3 +840,31 @@ This catalog renders every registry entry. Performance numbers are author-report
 - **Implementation:** official; https://github.com/NJUVISION/rho-vision
 - **Primary source:** https://github.com/NJUVISION/rho-vision
 - **Research priority:** P1
+
+## Ocr Aware Semantic Side Channel
+
+### TextBoost: Boosting Scene Text Fidelity in Ultra-low Bitrate Image Compression (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Transmit filtered OCR strings/coordinates as auxiliary guidance, render a guidance map and fuse it in the decoder for small-text fidelity.
+- **Datasets:** TextOCR; ICDAR 2015; Kodak
+- **Metrics:** DET F1; E2E text spotting F1; PSNR; LPIPS; MS-SSIM; bpp
+- **Reported result:** Author reports up to 60.6% higher text-recognition F1 at comparable PSNR/bpp.
+- **Difference / caveat:** Track B comparison only unless every OCR string/geometry/filter/header byte plus encoder OCR cost and privacy risk is counted; do not compare directly to pure-image OSCAR Track A.
+- **Implementation:** not_confirmed; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2603.04115
+- **Research priority:** P0
+
+## Survey
+
+### Advances in Diffusion-Based Generative Compression (2026, arXiv)
+
+- **Evidence status:** preprint
+- **Core idea:** Unifying review of diffusion-based generative lossy compression and open challenges.
+- **Datasets:** review
+- **Metrics:** rate-distortion-perception; common randomness; diffusion compression taxonomy
+- **Reported result:** No new codec result; useful as a conceptual map for diffusion compression baselines.
+- **Difference / caveat:** Survey preprint; cite for taxonomy rather than performance claims.
+- **Implementation:** not_applicable; no verified public implementation
+- **Primary source:** https://arxiv.org/abs/2601.18932
+- **Research priority:** P2
